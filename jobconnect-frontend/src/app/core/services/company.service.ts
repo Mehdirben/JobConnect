@@ -36,9 +36,9 @@ export class CompanyService {
     }
 
     reorderKanban(jobId: number, updates: KanbanUpdate[]): Observable<void> {
-        return this.http.put<void>(
-            `${this.API_URL}/jobs/${jobId}/kanban`,
-            { updates }
+        return this.http.post<void>(
+            `${this.API_URL}/jobs/${jobId}/kanban/reorder`,
+            updates
         );
     }
 }
