@@ -266,11 +266,13 @@
           <h3>Education</h3>
           @for (edu of previewData()?.education; track $index) {
           <div class="preview-item">
-            <strong>{{ edu.degree || 'Degree' }} in {{ edu.field || 'Field' }}</strong>
+            <div class="preview-item-header">
+              <strong>{{ edu.degree || 'Degree' }} in {{ edu.field || 'Field' }}</strong>
+              @if (edu.graduationYear) {
+              <span class="preview-dates">{{ edu.graduationYear }}</span>
+              }
+            </div>
             <span class="preview-company">{{ edu.institution || 'Institution' }}</span>
-            @if (edu.graduationYear) {
-            <span class="preview-year">{{ edu.graduationYear }}</span>
-            }
           </div>
           }
         </div>
