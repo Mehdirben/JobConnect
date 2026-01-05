@@ -61,6 +61,10 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/company/dashboard/company-dashboard.component').then(m => m.CompanyDashboardComponent)
             },
             {
+                path: 'jobs/new',
+                loadComponent: () => import('./features/company/job-create/job-create.component').then(m => m.JobCreateComponent)
+            },
+            {
                 path: 'jobs/:id/candidates',
                 loadComponent: () => import('./features/company/candidates/candidates-view.component').then(m => m.CandidatesViewComponent)
             },
