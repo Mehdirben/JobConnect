@@ -277,3 +277,125 @@ textarea {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
+/* ============================================
+   Responsive Utilities
+   ============================================ */
+
+/* Responsive Container */
+.container {
+    @media (max-width: 768px) {
+        padding: 0 1rem;
+    }
+}
+
+/* Touch-friendly tap targets (minimum 44px) */
+button,
+a,
+input,
+select,
+textarea {
+    @media (max-width: 768px) {
+        min-height: 44px;
+    }
+}
+
+/* Safe area insets for notch devices */
+@supports (padding: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+}
+
+/* Hide/Show utilities */
+.hide-mobile {
+    @media (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+.hide-desktop {
+    @media (min-width: 769px) {
+        display: none !important;
+    }
+}
+
+.show-mobile {
+    display: none !important;
+
+    @media (max-width: 768px) {
+        display: block !important;
+    }
+}
+
+.show-desktop {
+    display: none !important;
+
+    @media (min-width: 769px) {
+        display: block !important;
+    }
+}
+
+/* Mobile-first font scaling */
+html {
+    font-size: 16px;
+
+    @media (max-width: 480px) {
+        font-size: 15px;
+    }
+}
+
+/* Improved form inputs for touch */
+input,
+select,
+textarea {
+    @media (max-width: 768px) {
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+        padding: 0.875rem 1rem;
+    }
+}
+
+/* Full-width buttons on mobile */
+.btn-full-mobile {
+    @media (max-width: 480px) {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Stack flex items on mobile */
+.stack-mobile {
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* Horizontal scroll container */
+.scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Prevent body scroll when modal/drawer is open */
+body.no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+/* Improved mobile spacing */
+@media (max-width: 768px) {
+    .card {
+        border-radius: var(--radius-lg);
+    }
+}

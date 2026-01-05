@@ -364,6 +364,155 @@ import { Company, JobPosting } from '../../../core/models';
         }
       }
     }
+
+    /* ============================================
+       Mobile-Native App Styles
+       ============================================ */
+
+    @media (max-width: 768px) {
+      .dashboard {
+        padding: 1rem;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
+        h1 {
+          font-size: 1.375rem;
+        }
+
+        p {
+          font-size: 0.8125rem;
+        }
+      }
+
+      .btn-create {
+        width: 100%;
+        justify-content: center;
+        padding: 0.875rem 1.5rem;
+        min-height: 48px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .stat-card {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+        gap: 0.875rem;
+
+        &:hover {
+          transform: none;
+        }
+
+        .stat-icon {
+          font-size: 1.5rem;
+        }
+
+        .stat-value {
+          font-size: 1.25rem;
+        }
+
+        .stat-label {
+          font-size: 0.75rem;
+        }
+      }
+
+      .jobs-section {
+        h2 {
+          font-size: 1rem;
+          margin-bottom: 1rem;
+        }
+      }
+
+      .jobs-list {
+        gap: 0.625rem;
+      }
+
+      .job-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.875rem;
+        padding: 1rem;
+        border-radius: var(--radius-lg);
+
+        &:hover {
+          transform: none;
+        }
+
+        &:active {
+          transform: scale(0.98);
+          background: var(--bg-tertiary);
+        }
+
+        h3 {
+          font-size: 0.9375rem;
+          margin-bottom: 0.375rem;
+        }
+      }
+
+      .job-meta {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        .status,
+        .type,
+        .location {
+          font-size: 0.6875rem;
+        }
+
+        .status {
+          padding: 0.1875rem 0.5rem;
+        }
+      }
+
+      .job-stats {
+        .applicants {
+          padding: 0.375rem 0.75rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      .btn-view {
+        align-self: flex-start;
+        padding: 0.625rem 1rem;
+        font-size: 0.75rem;
+        min-height: 40px;
+      }
+
+      .loading,
+      .empty-state {
+        padding: 2rem 1.5rem;
+        border-radius: var(--radius-lg);
+
+        &::before {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .empty-state .btn-primary {
+        width: 100%;
+        padding: 0.875rem 1.5rem;
+        min-height: 48px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .dashboard-header h1 {
+        font-size: 1.25rem;
+      }
+
+      .job-item h3 {
+        font-size: 0.875rem;
+      }
+    }
   `]
 })
 export class CompanyDashboardComponent implements OnInit {

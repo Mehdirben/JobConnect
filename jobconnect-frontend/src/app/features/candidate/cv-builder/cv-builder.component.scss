@@ -857,3 +857,259 @@
     margin-bottom: 1rem;
   }
 }
+
+/* ============================================
+   Mobile-Native App Styles
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .cv-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem 1.5rem;
+  }
+
+  .preview-section {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1.5rem 1rem 1.25rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+    }
+  }
+
+  .header-badge {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .header-orb-1,
+  .header-orb-2 {
+    display: none;
+  }
+
+  .cv-container {
+    padding: 0 0.75rem 1.5rem;
+    gap: 1rem;
+  }
+
+  /* Cards on mobile */
+  .card {
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: 0.9375rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .card-header h2 {
+    margin-bottom: 0;
+  }
+
+  /* Form rows stack on mobile */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .form-group {
+    label {
+      font-size: 0.75rem;
+    }
+
+    input,
+    textarea,
+    select {
+      padding: 0.875rem 1rem;
+      font-size: 16px;
+      /* Prevents iOS zoom */
+      border-radius: var(--radius-md);
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+  }
+
+  /* Skills grid - horizontal scroll */
+  .skills-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .skill-chip {
+    flex-shrink: 0;
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+    min-height: 44px;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    .category {
+      display: none;
+    }
+  }
+
+  /* Nested forms */
+  .nested-form {
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1rem;
+
+    .form-group {
+      label {
+        font-size: 0.6875rem;
+      }
+
+      input,
+      textarea {
+        padding: 0.875rem 1rem;
+        font-size: 16px;
+        border-radius: var(--radius-md);
+      }
+    }
+
+    .form-row {
+      gap: 0.75rem;
+    }
+  }
+
+  .btn-add {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+    min-height: 48px;
+    justify-content: center;
+  }
+
+  .btn-remove {
+    width: 32px;
+    height: 32px;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  /* Preview section - collapsed by default */
+  .preview-section {
+    position: static;
+  }
+
+  .preview-header {
+    margin-bottom: 0.75rem;
+
+    h2 {
+      font-size: 0.9375rem;
+    }
+  }
+
+  .preview-badge {
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.625rem;
+  }
+
+  .autosave-status {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .cv-preview {
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    max-height: none;
+  }
+
+  .preview-name {
+    font-size: 1.25rem;
+  }
+
+  .preview-section-block {
+    margin-bottom: 1.25rem;
+
+    h3 {
+      font-size: 0.8125rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.8125rem;
+    }
+  }
+
+  .preview-item {
+    padding: 0.875rem;
+    margin-bottom: 0.625rem;
+
+    strong {
+      font-size: 0.875rem;
+    }
+
+    .preview-dates {
+      font-size: 0.625rem;
+      padding: 0.125rem 0.5rem;
+    }
+  }
+
+  .preview-skill-tag {
+    font-size: 0.6875rem;
+    padding: 0.1875rem 0.5rem;
+  }
+
+  /* Form actions */
+  .form-actions {
+    margin-top: 1.5rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    min-height: 52px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+  .page-header h1 {
+    font-size: 1.375rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .nested-form {
+    padding: 1rem;
+  }
+
+  .cv-preview {
+    padding: 1rem;
+  }
+
+  .preview-name {
+    font-size: 1.125rem;
+  }
+}

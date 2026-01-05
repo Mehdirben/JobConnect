@@ -512,3 +512,94 @@
         margin-bottom: 1rem;
     }
 }
+
+/* ============================================
+   Responsive Styles
+   ============================================ */
+
+@media (max-width: 768px) {
+    .tracker-header {
+        padding: 2rem 1rem 1.5rem;
+    }
+
+    .stats-bar {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem 1.5rem;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .stat-item {
+        flex-direction: row;
+        gap: 0.5rem;
+
+        .stat-number {
+            font-size: 1.125rem;
+        }
+    }
+
+    .stat-divider {
+        width: 80%;
+        height: 1px;
+    }
+
+    .applications-list {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .application-card {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .matching-score {
+        align-self: flex-start;
+    }
+
+    .status-pipeline {
+        padding: 1rem 0;
+        gap: 0.25rem;
+    }
+
+    .pipeline-step {
+        .step-indicator {
+            width: 32px;
+            height: 32px;
+            font-size: 0.75rem;
+        }
+
+        .step-label {
+            font-size: 0.625rem;
+        }
+    }
+
+    .step-connector {
+        min-width: 16px;
+        margin: 0 0.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .card-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .pipeline-step .step-label {
+        display: none;
+    }
+
+    .job-info h3 {
+        font-size: 1rem;
+    }
+}

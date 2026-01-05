@@ -525,6 +525,179 @@ import { RouterLink } from '@angular/router';
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    /* ============================================
+       Mobile-Native App Styles
+       ============================================ */
+    
+    @media (max-width: 768px) {
+      .hero {
+        padding: 1.5rem 1rem 3rem;
+        min-height: auto;
+        gap: 2rem;
+      }
+
+      .badge {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        line-height: 1.15;
+      }
+
+      .hero-subtitle {
+        font-size: 0.9375rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        margin-bottom: 2rem;
+        gap: 0.625rem;
+      }
+
+      .btn-primary-lg,
+      .btn-secondary-lg {
+        width: 100%;
+        justify-content: center;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        min-height: 52px;
+      }
+
+      .hero-stats {
+        background: var(--bg-glass-strong);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-xl);
+        padding: 1rem;
+        gap: 0;
+        justify-content: space-around;
+        width: 100%;
+      }
+
+      .stat {
+        align-items: center;
+        flex: 1;
+      }
+
+      .stat-number {
+        font-size: 1.25rem;
+      }
+
+      .stat-label {
+        font-size: 0.6875rem;
+        text-align: center;
+      }
+
+      .stat-divider {
+        height: 32px;
+      }
+
+      /* Features - Horizontal scroll on mobile */
+      .features {
+        padding: 3rem 0;
+      }
+
+      .features-header {
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+
+        h2 {
+          font-size: 1.5rem;
+        }
+
+        p {
+          font-size: 0.875rem;
+        }
+      }
+
+      .features-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem;
+        padding: 0 1rem;
+        margin: 0;
+        
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      .feature-card {
+        min-width: 280px;
+        scroll-snap-align: center;
+        padding: 1.5rem;
+        border-radius: var(--radius-lg);
+
+        &:hover {
+          transform: none;
+        }
+      }
+
+      .feature-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 0.75rem;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      .feature-card h3 {
+        font-size: 1rem;
+      }
+
+      .feature-card p {
+        font-size: 0.8125rem;
+      }
+
+      /* CTA Section */
+      .cta {
+        padding: 3rem 1rem;
+      }
+
+      .cta-content {
+        h2 {
+          font-size: 1.5rem;
+        }
+
+        p {
+          font-size: 0.9375rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .btn-primary-lg {
+          width: 100%;
+        }
+      }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 375px) {
+      .hero-title {
+        font-size: 1.75rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.875rem;
+      }
+
+      .stat-number {
+        font-size: 1.125rem;
+      }
+
+      .feature-card {
+        min-width: 260px;
+      }
+    }
   `]
 })
 export class LandingComponent { }
