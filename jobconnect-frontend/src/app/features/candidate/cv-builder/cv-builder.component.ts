@@ -1,9 +1,11 @@
-import { Component, OnInit, signal, computed, effect } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CandidateService } from '../../../core/services/candidate.service';
 import { SkillService } from '../../../core/services/skill.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { CandidateProfile, Skill, Experience, Education, Certification } from '../../../core/models';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-cv-builder',
@@ -12,17 +14,24 @@ import { CandidateProfile, Skill, Experience, Education, Certification } from '.
     templateUrl: './cv-builder.component.html',
     styleUrl: './cv-builder.component.scss'
 })
-export class CvBuilderComponent implements OnInit {
+export class CvBuilderComponent implements OnInit, OnDestroy {
     cvForm!: FormGroup;
     skills = signal<Skill[]>([]);
     selectedSkills = signal<number[]>([]);
-    loading = signal(false);
+    loading = signal(true);
     saving = signal(false);
 
     profile = signal<CandidateProfile | null>(null);
 
-    // Computed for real-time preview
+    // Signal to trigger preview updates
+    formVersion = signal(0);
+    private formSubscription?: Subscription;
+
+    // Computed for real-time preview - depends on formVersion signal
     previewData = computed(() => {
+        // Trigger recomputation when formVersion changes
+        this.formVersion();
+
         if (!this.cvForm) return null;
         return {
             personalInfo: this.cvForm.get('personalInfo')?.value,
@@ -36,13 +45,23 @@ export class CvBuilderComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private candidateService: CandidateService,
-        private skillService: SkillService
+        private skillService: SkillService,
+        private notificationService: NotificationService
     ) {
         this.initForm();
     }
 
     ngOnInit() {
         this.loadData();
+
+        // Subscribe to form changes for real-time preview
+        this.formSubscription = this.cvForm.valueChanges.subscribe(() => {
+            this.formVersion.update(v => v + 1);
+        });
+    }
+
+    ngOnDestroy() {
+        this.formSubscription?.unsubscribe();
     }
 
     private initForm() {
@@ -107,6 +126,9 @@ export class CvBuilderComponent implements OnInit {
         if (profile.skills) {
             this.selectedSkills.set(profile.skills.map(s => s.skillId));
         }
+
+        // Trigger initial preview update
+        this.formVersion.update(v => v + 1);
     }
 
     // Experience FormArray
@@ -124,10 +146,12 @@ export class CvBuilderComponent implements OnInit {
             description: [exp?.description || '']
         });
         this.experienceArray.push(group);
+        this.formVersion.update(v => v + 1);
     }
 
     removeExperience(index: number) {
         this.experienceArray.removeAt(index);
+        this.formVersion.update(v => v + 1);
     }
 
     // Education FormArray
@@ -144,10 +168,12 @@ export class CvBuilderComponent implements OnInit {
             description: [edu?.description || '']
         });
         this.educationArray.push(group);
+        this.formVersion.update(v => v + 1);
     }
 
     removeEducation(index: number) {
         this.educationArray.removeAt(index);
+        this.formVersion.update(v => v + 1);
     }
 
     // Certifications FormArray
@@ -163,10 +189,12 @@ export class CvBuilderComponent implements OnInit {
             expiryDate: [cert?.expiryDate ? this.formatDate(cert.expiryDate) : '']
         });
         this.certificationsArray.push(group);
+        this.formVersion.update(v => v + 1);
     }
 
     removeCertification(index: number) {
         this.certificationsArray.removeAt(index);
+        this.formVersion.update(v => v + 1);
     }
 
     // Skills toggle
@@ -177,6 +205,7 @@ export class CvBuilderComponent implements OnInit {
         } else {
             this.selectedSkills.set([...current, skillId]);
         }
+        this.formVersion.update(v => v + 1);
     }
 
     isSkillSelected(skillId: number): boolean {
@@ -185,7 +214,10 @@ export class CvBuilderComponent implements OnInit {
 
     // Save profile
     save() {
-        if (this.cvForm.invalid) return;
+        if (this.cvForm.invalid) {
+            this.notificationService.error('Please fill in all required fields.');
+            return;
+        }
 
         this.saving.set(true);
         const formValue = this.cvForm.value;
@@ -205,9 +237,12 @@ export class CvBuilderComponent implements OnInit {
         this.candidateService.updateProfile(updateData).subscribe({
             next: () => {
                 this.saving.set(false);
-                // Show success message
+                this.notificationService.success('Profile saved successfully!');
             },
-            error: () => this.saving.set(false)
+            error: (err) => {
+                this.saving.set(false);
+                this.notificationService.error(err.error?.message || 'Failed to save profile. Please try again.');
+            }
         });
     }
 
