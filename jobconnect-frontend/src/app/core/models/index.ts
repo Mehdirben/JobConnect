@@ -103,11 +103,11 @@ export enum JobStatus {
 }
 
 export enum JobType {
-    FullTime = 'FullTime',
-    PartTime = 'PartTime',
-    Contract = 'Contract',
-    Internship = 'Internship',
-    Remote = 'Remote'
+    FullTime = 0,
+    PartTime = 1,
+    Contract = 2,
+    Internship = 3,
+    Remote = 4
 }
 
 export interface JobPosting {
