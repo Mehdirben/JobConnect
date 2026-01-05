@@ -13,12 +13,7 @@ import { NotificationService } from './core/services/notification.service';
       <nav class="navbar">
         <div class="nav-inner">
           <a routerLink="/" class="logo" (click)="closeMobileMenu()">
-            <div class="logo-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              </svg>
-            </div>
+            <img src="logo.png" alt="JobConnect" class="logo-icon">
             <span class="logo-text">JobConnect</span>
           </a>
           
@@ -217,17 +212,8 @@ import { NotificationService } from './core/services/notification.service';
     .logo-icon {
       width: 32px;
       height: 32px;
-      background: var(--accent);
       border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-
-      svg {
-        width: 18px;
-        height: 18px;
-      }
+      object-fit: cover;
     }
 
     .logo-text {
