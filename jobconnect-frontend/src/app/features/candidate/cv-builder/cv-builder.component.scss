@@ -176,7 +176,8 @@
 .form-section {
   min-width: 0;
   max-width: 100%;
-  overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 // Card Styles
@@ -188,10 +189,16 @@
   border: 1px solid var(--border-light);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-base);
+  position: relative;
 
   &:hover {
     box-shadow: var(--shadow-lg);
     border-color: var(--border-default);
+  }
+
+  // Ensure cards with open dropdowns appear above subsequent cards
+  &:focus-within {
+    z-index: 10;
   }
 
   h2 {
@@ -349,6 +356,12 @@
   border: 1px solid var(--border-light);
   transition: all var(--transition-base);
   box-shadow: var(--shadow-sm);
+  z-index: 1;
+
+  // Ensure nested forms with open dropdowns appear above others
+  &:focus-within {
+    z-index: 100;
+  }
 
   &:hover {
     border-color: var(--border-default);
@@ -600,7 +613,6 @@
   height: fit-content;
   min-width: 0;
   max-width: 100%;
-  overflow: hidden;
 
   @media (max-width: 1024px) {
     position: static;
@@ -948,7 +960,6 @@
     border-radius: var(--radius-lg);
     margin-bottom: 0.75rem;
     max-width: 100%;
-    overflow: hidden;
 
     h2 {
       font-size: 0.875rem;
