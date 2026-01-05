@@ -12,11 +12,12 @@ import { JobPosting, Skill } from '../../core/models';
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
     <div class="jobs-page">
-      <div class="hero-section">
-        <div class="hero-orb hero-orb-1"></div>
-        <div class="hero-orb hero-orb-2"></div>
+      <!-- Hero Header -->
+      <div class="page-header">
+        <div class="header-orb header-orb-1"></div>
+        <div class="header-orb header-orb-2"></div>
         
-        <div class="hero-badge">
+        <div class="header-badge">
           <span class="badge-dot"></span>
           <span>Over 10,000+ jobs available</span>
         </div>

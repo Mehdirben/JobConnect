@@ -62,19 +62,19 @@
     }
 }
 
-/* Hero Section */
-.hero-section {
+/* Page Header */
+.page-header {
     text-align: center;
-    padding: 5rem 2rem 4rem;
+    padding: 3rem 2rem 2rem;
     background: var(--bg-secondary);
     position: relative;
     overflow: hidden;
 
     h1 {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
         font-weight: 800;
         color: var(--text-primary);
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         letter-spacing: -0.03em;
         position: relative;
         line-height: 1.1;
@@ -82,14 +82,14 @@
         animation-delay: 0.1s;
 
         @media (max-width: 768px) {
-            font-size: 2.25rem;
+            font-size: 1.75rem;
         }
     }
 
     p {
         color: var(--text-secondary);
-        font-size: 1.125rem;
-        margin-bottom: 2.5rem;
+        font-size: 1rem;
+        margin-bottom: 2rem;
         position: relative;
         max-width: 500px;
         margin-left: auto;
@@ -107,14 +107,14 @@
 }
 
 /* Floating Orbs */
-.hero-orb {
+.header-orb {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
     animation: float 8s ease-in-out infinite;
 }
 
-.hero-orb-1 {
+.header-orb-1 {
     top: -80px;
     left: 10%;
     width: 400px;
@@ -123,7 +123,7 @@
     animation-delay: 0s;
 }
 
-.hero-orb-2 {
+.header-orb-2 {
     top: 20px;
     right: 5%;
     width: 350px;
@@ -133,7 +133,7 @@
 }
 
 /* Badge */
-.hero-badge {
+.header-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
