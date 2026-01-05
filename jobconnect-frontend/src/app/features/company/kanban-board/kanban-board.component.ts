@@ -107,6 +107,8 @@ export class KanbanBoardComponent implements OnInit {
 
     private saveChanges(affectedColumn: KanbanColumn) {
         this.updating.set(true);
+        const updateStartTime = Date.now();
+        const MIN_DISPLAY_TIME = 800; // Minimum time to show "Saving changes..." badge
 
         const updates: KanbanUpdate[] = [];
 
@@ -122,17 +124,29 @@ export class KanbanBoardComponent implements OnInit {
         if (updates.length > 0) {
             this.companyService.reorderKanban(this.jobId, updates).subscribe({
                 next: () => {
-                    this.updating.set(false);
-                    // Update local state
+                    // Ensure minimum display time for the badge
+                    const elapsed = Date.now() - updateStartTime;
+                    const remainingTime = Math.max(0, MIN_DISPLAY_TIME - elapsed);
+
+                    setTimeout(() => {
+                        this.updating.set(false);
+                    }, remainingTime);
+
+                    // Update local state immediately
                     affectedColumn.applications.forEach((app, index) => {
                         app.status = affectedColumn.status;
                         app.kanbanOrder = index;
                     });
                 },
                 error: () => {
-                    this.updating.set(false);
-                    // Reload on error to ensure consistency
-                    this.loadApplications();
+                    const elapsed = Date.now() - updateStartTime;
+                    const remainingTime = Math.max(0, MIN_DISPLAY_TIME - elapsed);
+
+                    setTimeout(() => {
+                        this.updating.set(false);
+                        // Reload on error to ensure consistency
+                        this.loadApplications();
+                    }, remainingTime);
                 }
             });
         }
