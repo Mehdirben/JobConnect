@@ -77,10 +77,9 @@ app.MapControllers();
 // Health check endpoint
 app.MapGet("/api/health", () => new { status = "healthy", timestamp = DateTime.UtcNow });
 
-// Auto-migrate database in development
-if (app.Environment.IsDevelopment())
+// Auto-migrate database on startup
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
 }
