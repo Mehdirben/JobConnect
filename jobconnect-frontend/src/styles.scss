@@ -289,16 +289,7 @@ textarea {
     }
 }
 
-/* Touch-friendly tap targets (minimum 44px) */
-button,
-a,
-input,
-select,
-textarea {
-    @media (max-width: 768px) {
-        min-height: 44px;
-    }
-}
+
 
 /* Safe area insets for notch devices */
 @supports (padding: env(safe-area-inset-top)) {
