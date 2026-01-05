@@ -222,17 +222,46 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
         this.saving.set(true);
         const formValue = this.cvForm.value;
 
+        // Transform experience data
+        const experience = formValue.experience.map((exp: any) => ({
+            company: exp.company,
+            title: exp.title,
+            startDate: exp.startDate ? new Date(exp.startDate).toISOString() : null,
+            endDate: exp.endDate && !exp.isCurrentRole ? new Date(exp.endDate).toISOString() : null,
+            isCurrentRole: exp.isCurrentRole || false,
+            description: exp.description || ''
+        }));
+
+        // Transform education data
+        const education = formValue.education.map((edu: any) => ({
+            institution: edu.institution,
+            degree: edu.degree,
+            field: edu.field,
+            graduationYear: parseInt(edu.graduationYear) || new Date().getFullYear(),
+            description: edu.description || ''
+        }));
+
+        // Transform certifications data
+        const certifications = formValue.certifications.map((cert: any) => ({
+            name: cert.name,
+            issuer: cert.issuer,
+            issueDate: cert.issueDate ? new Date(cert.issueDate).toISOString() : null,
+            expiryDate: cert.expiryDate ? new Date(cert.expiryDate).toISOString() : null
+        }));
+
         const updateData = {
             firstName: formValue.personalInfo.firstName,
             lastName: formValue.personalInfo.lastName,
-            phone: formValue.personalInfo.phone,
-            summary: formValue.personalInfo.summary,
-            location: formValue.personalInfo.location,
-            experience: formValue.experience,
-            education: formValue.education,
-            certifications: formValue.certifications,
-            skillIds: this.selectedSkills()
+            phone: formValue.personalInfo.phone || null,
+            summary: formValue.personalInfo.summary || null,
+            location: formValue.personalInfo.location || null,
+            experience: experience.length > 0 ? experience : null,
+            education: education.length > 0 ? education : null,
+            certifications: certifications.length > 0 ? certifications : null,
+            skillIds: this.selectedSkills().length > 0 ? this.selectedSkills() : null
         };
+
+        console.log('Saving profile:', updateData);
 
         this.candidateService.updateProfile(updateData).subscribe({
             next: () => {
@@ -241,6 +270,7 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
             },
             error: (err) => {
                 this.saving.set(false);
+                console.error('Save error:', err);
                 this.notificationService.error(err.error?.message || 'Failed to save profile. Please try again.');
             }
         });
