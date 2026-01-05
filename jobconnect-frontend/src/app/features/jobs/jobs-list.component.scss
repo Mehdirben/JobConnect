@@ -179,10 +179,14 @@
         color: var(--text-muted);
         pointer-events: none;
         z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         svg {
             width: 20px;
             height: 20px;
+            display: block;
         }
     }
 
