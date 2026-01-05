@@ -14,6 +14,18 @@ export const authGuard: CanActivateFn = () => {
     return false;
 };
 
+export const guestGuard: CanActivateFn = () => {
+    const authService = inject(AuthService);
+    const router = inject(Router);
+
+    if (!authService.isAuthenticated()) {
+        return true;
+    }
+
+    router.navigate(['/']);
+    return false;
+};
+
 export const candidateGuard: CanActivateFn = () => {
     const authService = inject(AuthService);
     const router = inject(Router);

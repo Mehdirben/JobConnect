@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, candidateGuard, companyGuard } from './core/guards/auth.guard';
+import { authGuard, candidateGuard, companyGuard, guestGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     // Public routes
@@ -16,13 +16,15 @@ export const routes: Routes = [
         loadComponent: () => import('./features/jobs/job-detail.component').then(m => m.JobDetailComponent)
     },
 
-    // Auth routes
+    // Auth routes (redirect to landing if already logged in)
     {
         path: 'login',
+        canActivate: [guestGuard],
         loadComponent: () => import('./features/auth/login.component').then(m => m.LoginComponent)
     },
     {
         path: 'register',
+        canActivate: [guestGuard],
         loadComponent: () => import('./features/auth/register.component').then(m => m.RegisterComponent)
     },
 
