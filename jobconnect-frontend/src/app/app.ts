@@ -154,8 +154,43 @@ import { NotificationService } from './core/services/notification.service';
       <div class="notifications-container">
         @for (notification of notificationService.notifications(); track notification.id) {
           <div class="notification" [class]="notification.type">
+            <div class="notification-icon">
+              @switch (notification.type) {
+                @case ('success') {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                }
+                @case ('error') {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="15" y1="9" x2="9" y2="15"/>
+                    <line x1="9" y1="9" x2="15" y2="15"/>
+                  </svg>
+                }
+                @case ('warning') {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                }
+                @default {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                }
+              }
+            </div>
             <span class="notification-message">{{ notification.message }}</span>
-            <button class="notification-close" (click)="notificationService.dismiss(notification.id)">×</button>
+            <button class="notification-close" (click)="notificationService.dismiss(notification.id)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
           </div>
         }
       </div>
@@ -643,76 +678,108 @@ import { NotificationService } from './core/services/notification.service';
     .notification {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.875rem;
       padding: 1rem 1.25rem;
-      border-radius: var(--radius-lg);
-      background: var(--bg-primary);
+      border-radius: var(--radius-xl);
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-light);
-      box-shadow: var(--shadow-xl);
-      animation: notificationSlideIn 0.3s ease;
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+      animation: notificationSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
       &.success {
-        border-left: 4px solid #10b981;
-        .notification-message::before {
-          content: '✓ ';
+        .notification-icon {
+          background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
           color: #10b981;
         }
       }
 
       &.error {
-        border-left: 4px solid #ef4444;
-        .notification-message::before {
-          content: '✕ ';
+        .notification-icon {
+          background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
           color: #ef4444;
         }
       }
 
       &.warning {
-        border-left: 4px solid #f59e0b;
-        .notification-message::before {
-          content: '⚠ ';
+        .notification-icon {
+          background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
           color: #f59e0b;
         }
       }
 
       &.info {
-        border-left: 4px solid #6366f1;
-        .notification-message::before {
-          content: 'ℹ ';
+        .notification-icon {
+          background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05));
           color: #6366f1;
         }
+      }
+    }
+
+    .notification-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      flex-shrink: 0;
+
+      svg {
+        width: 18px;
+        height: 18px;
       }
     }
 
     @keyframes notificationSlideIn {
       from {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(100%) scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
       }
     }
 
     .notification-message {
       flex: 1;
       font-size: 0.875rem;
+      font-weight: 500;
       color: var(--text-primary);
+      line-height: 1.4;
     }
 
     .notification-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
       background: transparent;
       border: none;
-      color: var(--text-muted);
-      font-size: 1.25rem;
+      border-radius: var(--radius-md);
       cursor: pointer;
       padding: 0;
-      line-height: 1;
-      transition: color var(--transition-fast);
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+
+      svg {
+        width: 14px;
+        height: 14px;
+        color: var(--text-muted);
+        transition: color var(--transition-fast);
+      }
 
       &:hover {
-        color: var(--text-primary);
+        background: rgba(0, 0, 0, 0.05);
+
+        svg {
+          color: var(--text-primary);
+        }
       }
     }
   `]
