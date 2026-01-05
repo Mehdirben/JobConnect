@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { UserRole } from '../models';
 
 export const authGuard: CanActivateFn = () => {
     const authService = inject(AuthService);
@@ -19,7 +18,7 @@ export const candidateGuard: CanActivateFn = () => {
     const authService = inject(AuthService);
     const router = inject(Router);
 
-    if (authService.isAuthenticated() && authService.userRole() === UserRole.Candidate) {
+    if (authService.isAuthenticated() && authService.userRole() === 'Candidate') {
         return true;
     }
 
@@ -31,7 +30,7 @@ export const companyGuard: CanActivateFn = () => {
     const authService = inject(AuthService);
     const router = inject(Router);
 
-    if (authService.isAuthenticated() && authService.userRole() === UserRole.Company) {
+    if (authService.isAuthenticated() && authService.userRole() === 'Company') {
         return true;
     }
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { UserRole } from '../../core/models';
 
 @Component({
   selector: 'app-login',
@@ -71,9 +70,9 @@ export class LoginComponent {
       next: (response) => {
         this.loading.set(false);
         // Redirect based on role
-        if (response.role === UserRole.Candidate) {
+        if (response.role === 'Candidate') {
           this.router.navigate(['/candidate/profile']);
-        } else if (response.role === UserRole.Company) {
+        } else if (response.role === 'Company') {
           this.router.navigate(['/company/dashboard']);
         } else {
           this.router.navigate(['/']);

@@ -16,9 +16,9 @@ export class AuthService {
 
     readonly isAuthenticated = computed(() => !!this.tokenSignal());
     readonly currentUser = computed(() => this.userSignal());
-    readonly userRole = computed(() => this.userSignal()?.role as UserRole | null);
-    readonly isCandidate = computed(() => this.userRole() === UserRole.Candidate);
-    readonly isCompany = computed(() => this.userRole() === UserRole.Company);
+    readonly userRole = computed(() => this.userSignal()?.role ?? null);
+    readonly isCandidate = computed(() => this.userRole() === 'Candidate');
+    readonly isCompany = computed(() => this.userRole() === 'Company');
 
     constructor(private http: HttpClient, private router: Router) { }
 

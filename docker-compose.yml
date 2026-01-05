@@ -33,6 +33,7 @@ services:
       - JwtSettings__Issuer=JobConnect
       - JwtSettings__Audience=JobConnectUsers
       - JwtSettings__ExpiryMinutes=60
+      - CorsOrigins=${CORS_ORIGINS:-http://localhost:4200,http://localhost:4201}
     ports:
       - "5001:5000"
     depends_on:
