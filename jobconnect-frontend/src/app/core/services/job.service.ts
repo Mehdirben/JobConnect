@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JobPosting, CreateJobRequest } from '../models';
-import { environment } from '../../../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class JobService {
-    private readonly API_URL = `${environment.apiUrl}/jobs`;
+    private get API_URL() { return `${this.configService.apiUrl}/jobs`; }
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private configService: ConfigService) { }
 
     getJobs(filters?: { search?: string; location?: string; type?: string; skills?: number[] }): Observable<JobPosting[]> {
         let params = new HttpParams();

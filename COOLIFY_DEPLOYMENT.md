@@ -210,22 +210,20 @@ Set the following environment variables in Coolify:
 
 ### Environment Variables for Frontend
 
-The frontend connects to the API via the environment configuration. You may need to update the `src/environments/environment.prod.ts` file before deployment:
+The frontend uses **runtime environment variables** - no need to rebuild when changing the API URL!
 
-```typescript
-export const environment = {
-  production: true,
-  apiUrl: 'https://api.yourdomain.com/api'
-};
-```
+| Variable | Description | Example | Required |
+| -------- | --------------------------------- | ---------------------------------- | -------- |
+| `API_URL` | Full API URL including `/api` | `https://api.yourdomain.com/api` | Yes |
 
-Alternatively, configure the API URL at runtime if your Dockerfile supports it.
+The `docker-entrypoint.sh` script generates `/assets/config.json` from the `API_URL` environment variable at container startup. This allows you to change the API URL without rebuilding the image.
 
 ### Configuring Frontend Domain and Port
 
 1. In the frontend resource settings, go to **Settings**
 2. **Important**: Set **Ports Exposes** to `80` (Nginx serves on port 80)
-3. Go to **Domains** and add your domain: `https://yourdomain.com`
+3. Add environment variable: `API_URL=https://api.yourdomain.com/api`
+4. Go to **Domains** and add your domain: `https://yourdomain.com`
 
 ---
 

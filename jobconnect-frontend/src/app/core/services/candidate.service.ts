@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { CandidateProfile, Application } from '../models';
-import { environment } from '../../../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CandidateService {
-    private readonly API_URL = `${environment.apiUrl}/candidates`;
+    private get API_URL() { return `${this.configService.apiUrl}/candidates`; }
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private configService: ConfigService) { }
 
     getProfile(): Observable<CandidateProfile> {
         return this.http.get<CandidateProfile>(`${this.API_URL}/profile`);

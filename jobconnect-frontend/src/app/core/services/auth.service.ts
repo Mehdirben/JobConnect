@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthResponse, ChangeEmailRequest, ChangePasswordRequest, LoginRequest, RegisterRequest, UserRole } from '../models';
-import { environment } from '../../../environments/environment';
+import { ConfigService } from './config.service';
 
 interface JwtPayload {
     sub: string;
@@ -17,7 +17,7 @@ interface JwtPayload {
     providedIn: 'root'
 })
 export class AuthService {
-    private readonly API_URL = `${environment.apiUrl}/auth`;
+    private get API_URL() { return `${this.configService.apiUrl}/auth`; }
 
     private tokenSignal = signal<string | null>(this.getValidToken());
     private userSignal = signal<AuthResponse | null>(this.loadUserFromStorage());
@@ -28,7 +28,11 @@ export class AuthService {
     readonly isCandidate = computed(() => this.userRole() === 'Candidate');
     readonly isCompany = computed(() => this.userRole() === 'Company');
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(
+        private http: HttpClient,
+        private router: Router,
+        private configService: ConfigService
+    ) {
         // Validate token on service initialization
         this.validateStoredToken();
     }

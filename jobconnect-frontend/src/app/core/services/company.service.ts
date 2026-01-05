@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Company, JobPosting, Application, KanbanUpdate } from '../models';
-import { environment } from '../../../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CompanyService {
-    private readonly API_URL = `${environment.apiUrl}/companies`;
+    private get API_URL() { return `${this.configService.apiUrl}/companies`; }
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private configService: ConfigService) { }
 
     getProfile(): Observable<Company> {
         return this.http.get<Company>(`${this.API_URL}/profile`);
