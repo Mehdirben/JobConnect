@@ -23,11 +23,11 @@ import { NotificationService } from './core/services/notification.service';
           </a>
           
           <div class="nav-center">
-            <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Find Jobs</a>
+            <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
             
             @if (authService.isAuthenticated()) {
               @if (authService.isCandidate()) {
-                <a routerLink="/candidate/cv-builder" routerLinkActive="active" class="nav-link">My CV</a>
+                <a routerLink="/candidate/cv-builder" routerLinkActive="active" class="nav-link">CV</a>
                 <a routerLink="/candidate/applications" routerLinkActive="active" class="nav-link">Applications</a>
               }
               @if (authService.isCompany()) {
