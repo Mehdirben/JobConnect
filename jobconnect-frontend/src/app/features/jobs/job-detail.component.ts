@@ -174,12 +174,21 @@ import { JobPosting } from '../../core/models';
     .job-detail-page {
       min-height: 100vh;
       background: var(--bg-secondary);
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
     }
 
     /* Header Bar - Glassmorphism style matching app */
     .header-bar {
       padding: 1rem 2rem;
       background: var(--bg-secondary);
+      width: 100%;
+      box-sizing: border-box;
+
+      @media (max-width: 768px) {
+        padding: 0.75rem 1rem;
+      }
     }
 
     .header-inner {
@@ -197,12 +206,14 @@ import { JobPosting } from '../../core/models';
       border-radius: var(--radius-full);
       box-shadow: var(--shadow-md);
       animation: fadeIn 0.4s ease;
+      box-sizing: border-box;
 
       @media (max-width: 768px) {
         flex-direction: column;
         border-radius: var(--radius-xl);
         padding: 1rem;
         gap: 1rem;
+        align-items: flex-start;
       }
     }
 
@@ -210,6 +221,12 @@ import { JobPosting } from '../../core/models';
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      min-width: 0;
+      flex: 1;
+
+      @media (max-width: 768px) {
+        width: 100%;
+      }
     }
 
     .back-btn {
@@ -248,6 +265,9 @@ import { JobPosting } from '../../core/models';
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
     }
 
     .header-info h1 {
@@ -257,12 +277,15 @@ import { JobPosting } from '../../core/models';
       letter-spacing: -0.02em;
       margin: 0;
       line-height: 1.3;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     .job-meta {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .meta-tag {
@@ -293,6 +316,12 @@ import { JobPosting } from '../../core/models';
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      flex-wrap: wrap;
+
+      @media (max-width: 768px) {
+        width: 100%;
+        justify-content: flex-start;
+      }
     }
 
     .salary-badge {
@@ -324,9 +353,16 @@ import { JobPosting } from '../../core/models';
       max-width: 1100px;
       margin: 0 auto;
       padding: 1.5rem 2rem 3rem;
+      box-sizing: border-box;
+      width: 100%;
 
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
+      }
+
+      @media (max-width: 768px) {
+        padding: 1rem;
+        gap: 1rem;
       }
     }
 
@@ -351,6 +387,13 @@ import { JobPosting } from '../../core/models';
       box-shadow: var(--shadow-sm);
       animation: fadeInUp 0.4s ease backwards;
       transition: all var(--transition-base);
+      overflow: hidden;
+      box-sizing: border-box;
+
+      @media (max-width: 768px) {
+        padding: 1.25rem;
+        border-radius: var(--radius-lg);
+      }
 
       &:nth-child(1) { animation-delay: 0.1s; }
       &:nth-child(2) { animation-delay: 0.15s; }
@@ -369,6 +412,7 @@ import { JobPosting } from '../../core/models';
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        word-break: break-word;
 
         &::before {
           content: '';
@@ -376,6 +420,7 @@ import { JobPosting } from '../../core/models';
           height: 1rem;
           background: linear-gradient(180deg, #6366f1, #a855f7);
           border-radius: 2px;
+          flex-shrink: 0;
         }
       }
 
@@ -384,6 +429,8 @@ import { JobPosting } from '../../core/models';
         line-height: 1.7;
         font-size: 0.9375rem;
         white-space: pre-wrap;
+        word-break: break-word;
+        overflow-wrap: break-word;
       }
     }
 
