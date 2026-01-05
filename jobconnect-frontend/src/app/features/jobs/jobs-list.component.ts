@@ -1,7 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { JobService } from '../../core/services/job.service';
 import { SkillService } from '../../core/services/skill.service';
 import { JobPosting, Skill } from '../../core/models';
@@ -34,7 +36,7 @@ import { JobPosting, Skill } from '../../core/models';
           </div>
           <input type="text" 
                  [(ngModel)]="searchQuery" 
-                 (input)="search()"
+                 (input)="onSearchInput()"
                  placeholder="Search jobs by title, company, skills...">
           <select [(ngModel)]="selectedType" (change)="search()">
             <option value="">All Types</option>
@@ -107,13 +109,16 @@ import { JobPosting, Skill } from '../../core/models';
   `,
   styleUrl: './jobs-list.component.scss'
 })
-export class JobsListComponent implements OnInit {
+export class JobsListComponent implements OnInit, OnDestroy {
   jobs = signal<JobPosting[]>([]);
   skills = signal<Skill[]>([]);
   loading = signal(true);
 
   searchQuery = '';
   selectedType = '';
+
+  private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private jobService: JobService,
@@ -123,6 +128,20 @@ export class JobsListComponent implements OnInit {
   ngOnInit() {
     this.loadJobs();
     this.skillService.getSkills().subscribe(skills => this.skills.set(skills));
+
+    // Subscribe to debounced search
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.loadJobs();
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private loadJobs() {
@@ -137,6 +156,13 @@ export class JobsListComponent implements OnInit {
       },
       error: () => this.loading.set(false)
     });
+  }
+
+  onSearchInput() {
+    // Only search if query is empty (to reset) or has 2+ characters
+    if (this.searchQuery.length === 0 || this.searchQuery.length >= 2) {
+      this.searchSubject.next(this.searchQuery);
+    }
   }
 
   search() {
