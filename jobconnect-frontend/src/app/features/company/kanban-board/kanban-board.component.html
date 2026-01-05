@@ -64,9 +64,14 @@
                             View Profile
                         </button>
                         <div class="mobile-move">
-                            <app-custom-dropdown [options]="getMoveOptions()" [value]="column.status"
-                                placeholder="Move to..." (selectionChange)="moveToStatus(app, $event)">
-                            </app-custom-dropdown>
+                            <select class="move-select" [value]="column.status"
+                                (change)="moveToStatus(app, $any($event.target).value)">
+                                @for (opt of getMoveOptions(); track opt.value) {
+                                <option [value]="opt.value" [selected]="opt.value === column.status">
+                                    {{ opt.label }}
+                                </option>
+                                }
+                            </select>
                         </div>
                     </div>
                 </div>

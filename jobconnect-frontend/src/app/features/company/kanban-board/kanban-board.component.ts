@@ -4,7 +4,11 @@ import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from 
 import { CompanyService } from '../../../core/services/company.service';
 import { Application, ApplicationStatus, KanbanUpdate } from '../../../core/models';
 import { CandidateProfileModalComponent } from '../candidate-profile-modal/candidate-profile-modal.component';
-import { CustomDropdownComponent, DropdownOption } from '../../../shared/components/custom-dropdown/custom-dropdown.component';
+
+interface MoveOption {
+    value: string;
+    label: string;
+}
 
 interface KanbanColumn {
     status: ApplicationStatus;
@@ -16,7 +20,7 @@ interface KanbanColumn {
 @Component({
     selector: 'app-kanban-board',
     standalone: true,
-    imports: [CommonModule, DragDropModule, CandidateProfileModalComponent, CustomDropdownComponent],
+    imports: [CommonModule, DragDropModule, CandidateProfileModalComponent],
     templateUrl: './kanban-board.component.html',
     styleUrl: './kanban-board.component.scss'
 })
@@ -134,11 +138,10 @@ export class KanbanBoardComponent implements OnInit {
         this.selectedApplication.set(null);
     }
 
-    getMoveOptions(): DropdownOption[] {
+    getMoveOptions(): MoveOption[] {
         return this.columns().map(col => ({
             value: col.status,
-            label: col.title,
-            icon: this.getStatusIcon(col.status)
+            label: col.title
         }));
     }
 
