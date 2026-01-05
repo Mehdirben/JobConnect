@@ -30,10 +30,12 @@ export class KanbanBoardComponent implements OnInit {
     columns = signal<KanbanColumn[]>([]);
     loading = signal(true);
     updating = signal(false);
+    saved = signal(false);
     selectedApplication = signal<Application | null>(null);
     isMobile = signal(false);
 
     private readonly MOBILE_BREAKPOINT = 768;
+    private readonly SAVED_DISPLAY_TIME = 2000; // Show "Saved" badge for 2 seconds
 
     private readonly columnDefs: Omit<KanbanColumn, 'applications'>[] = [
         { status: ApplicationStatus.Submitted, title: 'Submitted', color: '#667eea' },
@@ -130,6 +132,12 @@ export class KanbanBoardComponent implements OnInit {
 
                     setTimeout(() => {
                         this.updating.set(false);
+                        this.saved.set(true);
+
+                        // Hide saved badge after delay
+                        setTimeout(() => {
+                            this.saved.set(false);
+                        }, this.SAVED_DISPLAY_TIME);
                     }, remainingTime);
 
                     // Update local state immediately

@@ -4,6 +4,9 @@
         @if (updating()) {
         <span class="updating-badge">Saving changes...</span>
         }
+        @if (saved()) {
+        <span class="saved-badge">Saved</span>
+        }
     </div>
 
     @if (loading()) {
