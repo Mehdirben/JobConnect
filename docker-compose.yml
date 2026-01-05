@@ -52,6 +52,9 @@ services:
       - NODE_ENV=development
     ports:
       - "4201:4200"
+    volumes:
+      - ./jobconnect-frontend/src:/app/src
+      - ./jobconnect-frontend/angular.json:/app/angular.json
     depends_on:
       - api
     networks:
