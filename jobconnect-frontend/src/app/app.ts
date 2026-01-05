@@ -152,10 +152,15 @@ import { NotificationService } from './core/services/notification.service';
       display: block;
       min-height: 100vh;
       background: var(--bg-secondary);
+      overflow-x: hidden;
+      max-width: 100vw;
     }
 
     .app-wrapper {
       min-height: 100vh;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
     }
 
     /* Floating Navbar */
@@ -167,6 +172,10 @@ import { NotificationService } from './core/services/notification.service';
       z-index: 100;
       padding: 1rem 1.5rem;
       pointer-events: none;
+      box-sizing: border-box;
+      max-width: 100vw;
+      overflow: visible;
+      background: transparent;
     }
 
     .nav-inner {
@@ -174,6 +183,7 @@ import { NotificationService } from './core/services/notification.service';
       align-items: center;
       justify-content: space-between;
       max-width: 1200px;
+      width: 100%;
       margin: 0 auto;
       padding: 0.625rem 1rem 0.625rem 0.875rem;
       background: var(--bg-glass-strong);
@@ -184,6 +194,7 @@ import { NotificationService } from './core/services/notification.service';
       box-shadow: var(--shadow-lg);
       pointer-events: auto;
       animation: slideDown 0.5s ease;
+      box-sizing: border-box;
     }
 
     @keyframes slideDown {
