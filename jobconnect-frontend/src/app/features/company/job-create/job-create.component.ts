@@ -76,7 +76,7 @@ export class JobCreateComponent implements OnInit {
             salaryMin: [null],
             salaryMax: [null],
             salaryCurrency: ['EUR'],
-            experienceYearsMin: [0],
+            experienceYearsMin: [null],
             experienceYearsMax: [null]
         });
     }
