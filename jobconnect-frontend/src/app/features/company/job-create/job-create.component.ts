@@ -41,6 +41,14 @@ export class JobCreateComponent implements OnInit {
 
     readonly currencies = ['USD', 'EUR', 'GBP', 'CAD', 'AUD'];
 
+    readonly currencyOptions: DropdownOption[] = [
+        { value: 'EUR', label: 'EUR - Euro', icon: '€' },
+        { value: 'USD', label: 'USD - US Dollar', icon: '$' },
+        { value: 'GBP', label: 'GBP - British Pound', icon: '£' },
+        { value: 'CAD', label: 'CAD - Canadian Dollar', icon: '$' },
+        { value: 'AUD', label: 'AUD - Australian Dollar', icon: '$' }
+    ];
+
     constructor(
         private fb: FormBuilder,
         private jobService: JobService,
