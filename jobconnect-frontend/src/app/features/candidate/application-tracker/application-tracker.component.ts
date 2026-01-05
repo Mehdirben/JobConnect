@@ -67,4 +67,17 @@ export class ApplicationTrackerComponent implements OnInit {
         if (score >= 40) return 'score-medium';
         return 'score-low';
     }
+
+    getActiveCount(): number {
+        return this.applications().filter(app =>
+            app.status !== ApplicationStatus.Rejected &&
+            app.status !== ApplicationStatus.Hired
+        ).length;
+    }
+
+    getInterviewCount(): number {
+        return this.applications().filter(app =>
+            app.status === ApplicationStatus.Interview
+        ).length;
+    }
 }

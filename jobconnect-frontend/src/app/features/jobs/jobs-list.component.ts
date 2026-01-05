@@ -7,20 +7,34 @@ import { SkillService } from '../../core/services/skill.service';
 import { JobPosting, Skill } from '../../core/models';
 
 @Component({
-    selector: 'app-jobs-list',
-    standalone: true,
-    imports: [CommonModule, FormsModule, RouterLink],
-    template: `
+  selector: 'app-jobs-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  template: `
     <div class="jobs-page">
       <div class="hero-section">
-        <h1>Find Your Dream Job</h1>
-        <p>Discover opportunities that match your skills</p>
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>Over 10,000+ jobs available</span>
+        </div>
+        
+        <h1>Find Your <span class="gradient-text">Dream Job</span></h1>
+        <p>Discover opportunities that match your skills and take the next step in your career</p>
         
         <div class="search-box">
+          <div class="search-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
+            </svg>
+          </div>
           <input type="text" 
                  [(ngModel)]="searchQuery" 
                  (input)="search()"
-                 placeholder="Search jobs by title, description...">
+                 placeholder="Search jobs by title, company, skills...">
           <select [(ngModel)]="selectedType" (change)="search()">
             <option value="">All Types</option>
             <option value="FullTime">Full Time</option>
@@ -45,8 +59,8 @@ import { JobPosting, Skill } from '../../core/models';
           </div>
         } @else {
           <div class="jobs-grid">
-            @for (job of jobs(); track job.id) {
-              <a [routerLink]="['/jobs', job.id]" class="job-card">
+            @for (job of jobs(); track job.id; let i = $index) {
+              <a [routerLink]="['/jobs', job.id]" class="job-card" [style.animation-delay]="(i * 0.05) + 's'">
                 <div class="card-header">
                   <div class="company-logo">{{ job.companyName.charAt(0) }}</div>
                   <div class="job-meta">
@@ -78,8 +92,16 @@ import { JobPosting, Skill } from '../../core/models';
                 }
 
                 <div class="card-footer">
-                  <span class="applicants">{{ job.applicationCount }} applicants</span>
-                  <span class="posted">Posted {{ job.publishedAt | date:'shortDate' }}</span>
+                  <span class="applicants">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    {{ job.applicationCount }} applicants
+                  </span>
+                  <span class="posted">{{ job.publishedAt | date:'shortDate' }}</span>
                 </div>
               </a>
             }
@@ -88,41 +110,41 @@ import { JobPosting, Skill } from '../../core/models';
       </div>
     </div>
   `,
-    styleUrl: './jobs-list.component.scss'
+  styleUrl: './jobs-list.component.scss'
 })
 export class JobsListComponent implements OnInit {
-    jobs = signal<JobPosting[]>([]);
-    skills = signal<Skill[]>([]);
-    loading = signal(true);
+  jobs = signal<JobPosting[]>([]);
+  skills = signal<Skill[]>([]);
+  loading = signal(true);
 
-    searchQuery = '';
-    selectedType = '';
+  searchQuery = '';
+  selectedType = '';
 
-    constructor(
-        private jobService: JobService,
-        private skillService: SkillService
-    ) { }
+  constructor(
+    private jobService: JobService,
+    private skillService: SkillService
+  ) { }
 
-    ngOnInit() {
-        this.loadJobs();
-        this.skillService.getSkills().subscribe(skills => this.skills.set(skills));
-    }
+  ngOnInit() {
+    this.loadJobs();
+    this.skillService.getSkills().subscribe(skills => this.skills.set(skills));
+  }
 
-    private loadJobs() {
-        this.loading.set(true);
-        this.jobService.getJobs({
-            search: this.searchQuery || undefined,
-            type: this.selectedType || undefined
-        }).subscribe({
-            next: (jobs) => {
-                this.jobs.set(jobs);
-                this.loading.set(false);
-            },
-            error: () => this.loading.set(false)
-        });
-    }
+  private loadJobs() {
+    this.loading.set(true);
+    this.jobService.getJobs({
+      search: this.searchQuery || undefined,
+      type: this.selectedType || undefined
+    }).subscribe({
+      next: (jobs) => {
+        this.jobs.set(jobs);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
 
-    search() {
-        this.loadJobs();
-    }
+  search() {
+    this.loadJobs();
+  }
 }

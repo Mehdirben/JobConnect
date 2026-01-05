@@ -1,7 +1,35 @@
 <div class="tracker-container">
+    <!-- Hero Header -->
     <div class="tracker-header">
-        <h1>My Applications</h1>
-        <p class="subtitle">Track the status of your job applications</p>
+        <div class="header-orb header-orb-1"></div>
+        <div class="header-orb header-orb-2"></div>
+
+        <div class="header-badge">
+            <span class="badge-dot"></span>
+            <span>Real-time status updates</span>
+        </div>
+
+        <h1>Track Your <span class="gradient-text">Applications</span></h1>
+        <p class="subtitle">Monitor the progress of your job applications in real-time</p>
+
+        @if (!loading() && applications().length > 0) {
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number">{{ applications().length }}</span>
+                <span class="stat-label">Total</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number active">{{ getActiveCount() }}</span>
+                <span class="stat-label">Active</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number interviews">{{ getInterviewCount() }}</span>
+                <span class="stat-label">Interviews</span>
+            </div>
+        </div>
+        }
     </div>
 
     @if (loading()) {
@@ -18,8 +46,9 @@
     </div>
     } @else {
     <div class="applications-list">
-        @for (app of applications(); track app.id) {
-        <div class="application-card" [class.rejected]="isRejected(app.status)">
+        @for (app of applications(); track app.id; let i = $index) {
+        <div class="application-card" [class.rejected]="isRejected(app.status)"
+            [style.animation-delay]="(i * 0.08) + 's'">
             <div class="card-header">
                 <div class="job-info">
                     <h3>{{ app.jobTitle }}</h3>
