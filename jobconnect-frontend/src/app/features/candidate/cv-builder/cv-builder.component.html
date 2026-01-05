@@ -16,7 +16,7 @@
   <div class="cv-container">
     <!-- Form Section -->
     <div class="form-section">
-      <form [formGroup]="cvForm" (ngSubmit)="save()">
+      <form [formGroup]="cvForm">
         <!-- Personal Info -->
         <div class="card" formGroupName="personalInfo">
           <h2><i class="icon-user"></i> Personal Information</h2>
@@ -192,10 +192,15 @@
           }
         </div>
 
-        <div class="form-actions">
-          <button type="submit" class="btn-primary" [disabled]="saving() || cvForm.invalid">
-            {{ saving() ? 'Saving...' : 'Save Profile' }}
-          </button>
+        <!-- Autosave Status -->
+        <div class="autosave-status" [class.saving]="saving()" [class.saved]="!saving()">
+          @if (saving()) {
+          <span class="status-icon">⟳</span>
+          <span>Saving...</span>
+          } @else {
+          <span class="status-icon">✓</span>
+          <span>All changes saved</span>
+          }
         </div>
       </form>
     </div>
@@ -204,7 +209,10 @@
     <div class="preview-section">
       <div class="preview-header">
         <h2>Live Preview</h2>
-        <span class="preview-badge">Real-time</span>
+        <span class="preview-badge">
+          <span class="pulse-dot"></span>
+          Real-time
+        </span>
       </div>
 
       <div class="cv-preview" *ngIf="previewData()">

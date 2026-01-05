@@ -5,7 +5,7 @@ import { CandidateService } from '../../../core/services/candidate.service';
 import { SkillService } from '../../../core/services/skill.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { CandidateProfile, Skill, Experience, Education, Certification } from '../../../core/models';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime, filter } from 'rxjs';
 import { DatePickerComponent } from '../../../shared/components/date-picker/date-picker.component';
 
 @Component({
@@ -27,6 +27,8 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
     // Signal to trigger preview updates
     formVersion = signal(0);
     private formSubscription?: Subscription;
+    private autosaveSubscription?: Subscription;
+    private isInitialLoad = true;
 
     // Computed for real-time preview - depends on formVersion signal
     previewData = computed(() => {
@@ -59,10 +61,19 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
         this.formSubscription = this.cvForm.valueChanges.subscribe(() => {
             this.formVersion.update(v => v + 1);
         });
+
+        // Autosave with debounce (1.5 second delay)
+        this.autosaveSubscription = this.cvForm.valueChanges.pipe(
+            debounceTime(1500),
+            filter(() => !this.isInitialLoad && this.cvForm.valid)
+        ).subscribe(() => {
+            this.autoSave();
+        });
     }
 
     ngOnDestroy() {
         this.formSubscription?.unsubscribe();
+        this.autosaveSubscription?.unsubscribe();
     }
 
     private initForm() {
@@ -130,6 +141,11 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
 
         // Trigger initial preview update
         this.formVersion.update(v => v + 1);
+
+        // Mark initial load as complete after a small delay
+        setTimeout(() => {
+            this.isInitialLoad = false;
+        }, 100);
     }
 
     // Experience FormArray
@@ -213,12 +229,9 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
         return this.selectedSkills().includes(skillId);
     }
 
-    // Save profile
-    save() {
-        if (this.cvForm.invalid) {
-            this.notificationService.error('Please fill in all required fields.');
-            return;
-        }
+    // Autosave profile (called automatically on form changes)
+    private autoSave() {
+        if (this.cvForm.invalid || this.saving()) return;
 
         this.saving.set(true);
         const formValue = this.cvForm.value;
@@ -262,17 +275,15 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
             skillIds: this.selectedSkills().length > 0 ? this.selectedSkills() : null
         };
 
-        console.log('Saving profile:', updateData);
-
         this.candidateService.updateProfile(updateData).subscribe({
             next: () => {
                 this.saving.set(false);
-                this.notificationService.success('Profile saved successfully!');
+                // Silent save - no toast notification for autosave
             },
             error: (err) => {
                 this.saving.set(false);
-                console.error('Save error:', err);
-                this.notificationService.error(err.error?.message || 'Failed to save profile. Please try again.');
+                console.error('Autosave error:', err);
+                this.notificationService.error('Failed to autosave. Please check your connection.');
             }
         });
     }
