@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { JobService } from '../../core/services/job.service';
 import { ApplicationService } from '../../core/services/application.service';
+import { CandidateService } from '../../core/services/candidate.service';
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { JobPosting } from '../../core/models';
@@ -577,6 +578,7 @@ export class JobDetailComponent implements OnInit {
   constructor(
     private jobService: JobService,
     private applicationService: ApplicationService,
+    private candidateService: CandidateService,
     public authService: AuthService,
     private notificationService: NotificationService,
     private router: Router,
@@ -592,6 +594,14 @@ export class JobDetailComponent implements OnInit {
       next: (job) => {
         this.job.set(job);
         this.loading.set(false);
+
+        // Check if candidate has already applied
+        if (this.authService.isCandidate()) {
+          this.candidateService.hasApplied(job.id).subscribe({
+            next: (hasApplied) => this.applied.set(hasApplied),
+            error: () => { } // Ignore errors, just don't show applied state
+          });
+        }
       },
       error: () => {
         this.loading.set(false);

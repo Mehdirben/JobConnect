@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { CandidateProfile, Application } from '../models';
 import { environment } from '../../../environments/environment';
 
@@ -26,5 +26,11 @@ export class CandidateService {
 
     getApplications(): Observable<Application[]> {
         return this.http.get<Application[]>(`${this.API_URL}/applications`);
+    }
+
+    hasApplied(jobId: number): Observable<boolean> {
+        return this.getApplications().pipe(
+            map(applications => applications.some(app => app.jobPostingId === jobId))
+        );
     }
 }
