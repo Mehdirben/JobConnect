@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-landing',
-    standalone: true,
-    imports: [CommonModule, RouterLink],
-    template: `
+  selector: 'app-landing',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  template: `
     <div class="landing-page">
       <!-- Hero Section -->
       <section class="hero">
@@ -140,34 +140,9 @@ import { RouterLink } from '@angular/router';
         </div>
       </section>
 
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <div class="logo">
-              <div class="logo-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-                </svg>
-              </div>
-              <span>JobConnect</span>
-            </div>
-            <p>Connecting talent with opportunity.</p>
-          </div>
-          <div class="footer-links">
-            <a routerLink="/jobs">Jobs</a>
-            <a routerLink="/register">Sign Up</a>
-            <a routerLink="/login">Login</a>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>© 2026 JobConnect. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   `,
-    styles: [`
+  styles: [`
     .landing-page {
       min-height: 100vh;
       background: var(--bg-secondary);
@@ -544,95 +519,7 @@ import { RouterLink } from '@angular/router';
       }
     }
 
-    /* Footer */
-    .footer {
-      background: var(--bg-primary);
-      border-top: 1px solid var(--border-light);
-      padding: 3rem 2rem 1.5rem;
-    }
 
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-
-      @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 2rem;
-        text-align: center;
-      }
-    }
-
-    .footer-brand {
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.5rem;
-
-        @media (max-width: 768px) {
-          justify-content: center;
-        }
-      }
-
-      .logo-icon {
-        width: 28px;
-        height: 28px;
-        background: var(--accent);
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-      }
-
-      span {
-        font-weight: 700;
-        color: var(--text-primary);
-      }
-
-      p {
-        font-size: 0.875rem;
-        color: var(--text-muted);
-      }
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-
-      a {
-        font-size: 0.875rem;
-        color: var(--text-secondary);
-        text-decoration: none;
-        transition: color var(--transition-fast);
-
-        &:hover {
-          color: var(--text-primary);
-        }
-      }
-    }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border-light);
-      text-align: center;
-
-      p {
-        font-size: 0.8125rem;
-        color: var(--text-muted);
-      }
-    }
 
     @keyframes fadeIn {
       from { opacity: 0; }

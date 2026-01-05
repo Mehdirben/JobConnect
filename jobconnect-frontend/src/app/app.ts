@@ -51,6 +51,10 @@ import { AuthService } from './core/services/auth.service';
       <main>
         <router-outlet></router-outlet>
       </main>
+
+      <footer class="copyright-bar">
+        <p>© 2026 JobConnect. All rights reserved.</p>
+      </footer>
     </div>
   `,
   styles: [`
@@ -210,8 +214,21 @@ import { AuthService } from './core/services/auth.service';
     }
 
     main {
-      min-height: 100vh;
+      min-height: calc(100vh - 100px);
       padding-top: 80px;
+    }
+
+    .copyright-bar {
+      padding: 1rem 2rem;
+      text-align: center;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border-light);
+
+      p {
+        font-size: 0.8125rem;
+        color: var(--text-muted);
+        margin: 0;
+      }
     }
 
     @media (max-width: 768px) {
