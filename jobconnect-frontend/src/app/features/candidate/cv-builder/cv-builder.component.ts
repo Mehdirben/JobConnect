@@ -235,6 +235,8 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
 
         this.saving.set(true);
         const formValue = this.cvForm.value;
+        const startTime = Date.now();
+        const minDisplayTime = 800; // Minimum time to show "Saving..." state
 
         // Transform experience data
         const experience = formValue.experience.map((exp: any) => ({
@@ -277,13 +279,21 @@ export class CvBuilderComponent implements OnInit, OnDestroy {
 
         this.candidateService.updateProfile(updateData).subscribe({
             next: () => {
-                this.saving.set(false);
-                // Silent save - no toast notification for autosave
+                // Ensure minimum display time for smooth UX
+                const elapsed = Date.now() - startTime;
+                const remaining = Math.max(0, minDisplayTime - elapsed);
+                setTimeout(() => {
+                    this.saving.set(false);
+                }, remaining);
             },
             error: (err) => {
-                this.saving.set(false);
-                console.error('Autosave error:', err);
-                this.notificationService.error('Failed to autosave. Please check your connection.');
+                const elapsed = Date.now() - startTime;
+                const remaining = Math.max(0, minDisplayTime - elapsed);
+                setTimeout(() => {
+                    this.saving.set(false);
+                    console.error('Autosave error:', err);
+                    this.notificationService.error('Failed to autosave. Please check your connection.');
+                }, remaining);
             }
         });
     }
