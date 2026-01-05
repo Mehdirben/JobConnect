@@ -243,7 +243,15 @@
           <h3>Experience</h3>
           @for (exp of previewData()?.experience; track $index) {
           <div class="preview-item">
-            <strong>{{ exp.title || 'Position' }}</strong>
+            <div class="preview-item-header">
+              <strong>{{ exp.title || 'Position' }}</strong>
+              @if (exp.startDate) {
+              <span class="preview-dates">
+                {{ exp.startDate | date:'MMM yyyy' }} -
+                @if (exp.isCurrentRole) { Present } @else { {{ exp.endDate | date:'MMM yyyy' }} }
+              </span>
+              }
+            </div>
             <span class="preview-company">{{ exp.company || 'Company' }}</span>
             @if (exp.description) {
             <p class="preview-description">{{ exp.description }}</p>
@@ -273,7 +281,12 @@
           <h3>Certifications</h3>
           @for (cert of previewData()?.certifications; track $index) {
           <div class="preview-item">
-            <strong>{{ cert.name || 'Certification' }}</strong>
+            <div class="preview-item-header">
+              <strong>{{ cert.name || 'Certification' }}</strong>
+              @if (cert.issueDate) {
+              <span class="preview-dates">{{ cert.issueDate | date:'MMM yyyy' }}</span>
+              }
+            </div>
             <span class="preview-company">{{ cert.issuer || 'Issuer' }}</span>
           </div>
           }
