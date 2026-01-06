@@ -403,6 +403,33 @@ dotnet ef migrations add MigrationName
 dotnet ef database update
 ```
 
+### Database Seeding
+
+The project includes a comprehensive data seeder that creates sample companies, job postings, candidates, and applications for testing and demonstration purposes.
+
+**Seed only if database is empty:**
+
+```bash
+cd JobConnect.API
+SEED_DATABASE=true dotnet run
+```
+
+**Force seed (add data even if database has existing data):**
+
+```bash
+cd JobConnect.API
+SEED_DATABASE=true FORCE_SEED=true dotnet run
+```
+
+The seeder creates:
+
+- **10 companies** with full profiles
+- **50+ job postings** across various roles and types
+- **32 candidates** with experience, education, and skills
+- **100+ applications** across all statuses
+
+> **Note**: Remove or set `SEED_DATABASE=false` after seeding to prevent the seeder from running on every startup.
+
 ### Running Tests
 
 **Frontend:**

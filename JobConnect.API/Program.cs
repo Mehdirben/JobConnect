@@ -128,6 +128,14 @@ using (var scope = app.Services.CreateScope())
         db.SaveChanges();
         Console.WriteLine($"Admin account created: {adminEmail}");
     }
+    
+    // Seed sample data (only when SEED_DATABASE=true)
+    if (builder.Configuration["SEED_DATABASE"]?.ToLower() == "true")
+    {
+        var forceSeed = builder.Configuration["FORCE_SEED"]?.ToLower() == "true";
+        var authServiceForSeeder = scope.ServiceProvider.GetRequiredService<IAuthService>();
+        DatabaseSeeder.SeedData(db, authServiceForSeeder, forceSeed);
+    }
 }
 
 app.Run();
