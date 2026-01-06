@@ -1,4 +1,5 @@
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -22,7 +23,7 @@ export const guestGuard: CanActivateFn = () => {
         return true;
     }
 
-    router.navigate(['/']);
+    router.navigate(['/jobs']);
     return false;
 };
 
@@ -72,5 +73,28 @@ export const redirectAdminFromJobsGuard: CanActivateFn = () => {
         return false;
     }
 
+    return true;
+};
+
+// Guard to redirect PWA standalone users away from landing page
+export const pwaGuard: CanActivateFn = () => {
+    const router = inject(Router);
+    const platformId = inject(PLATFORM_ID);
+
+    // Only check on browser platform
+    if (isPlatformBrowser(platformId)) {
+        // Check if running as PWA standalone
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+            || (window.navigator as any).standalone === true
+            || document.referrer.includes('android-app://');
+
+        if (isStandalone) {
+            // PWA mode: redirect to jobs page
+            router.navigate(['/jobs']);
+            return false;
+        }
+    }
+
+    // Browser mode: allow access to landing page
     return true;
 };

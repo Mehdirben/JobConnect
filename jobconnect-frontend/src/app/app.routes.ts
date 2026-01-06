@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
-import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard, redirectAdminFromJobsGuard } from './core/guards/auth.guard';
+import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard, redirectAdminFromJobsGuard, pwaGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    // Root redirects to jobs
+    // Landing page (only in browser mode, not PWA)
     {
         path: '',
-        redirectTo: 'jobs',
+        canActivate: [pwaGuard, guestGuard],
+        loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent),
         pathMatch: 'full'
     },
     {
@@ -13,6 +14,7 @@ export const routes: Routes = [
         canActivate: [redirectAdminFromJobsGuard],
         loadComponent: () => import('./features/jobs/jobs-list.component').then(m => m.JobsListComponent)
     },
+
     {
         path: 'jobs/:id',
         canActivate: [redirectAdminFromJobsGuard],

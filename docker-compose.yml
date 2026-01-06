@@ -54,6 +54,8 @@ services:
       - CorsOrigins=${CORS_ORIGINS:-http://localhost:4200,http://localhost:4201}
       - SEED_DATABASE=${SEED_DATABASE:-false}
       - FORCE_SEED=${FORCE_SEED:-false}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@jobconnect.com}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-Admin123!}
     ports:
       - "5001:5000"
     depends_on:
