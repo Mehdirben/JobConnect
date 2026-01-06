@@ -4,25 +4,34 @@
         <div class="header-orb header-orb-1"></div>
         <div class="header-orb header-orb-2"></div>
 
-        <button class="back-btn" (click)="goBack()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Back to Candidates
-        </button>
+        <!-- Top Navigation Bar -->
+        <div class="header-nav">
+            <button class="back-btn" (click)="goBack()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                <span>Back to Candidates</span>
+            </button>
 
-        <div class="header-badge">
-            <span class="badge-icon">🛡️</span>
-            <span>Admin Panel</span>
+            <div class="header-badge">
+                <div class="badge-glow"></div>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="badge-icon">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                <span>Admin Panel</span>
+            </div>
         </div>
 
-        @if (isNewCandidate()) {
-        <h1>Add New <span class="gradient-text">Candidate</span></h1>
-        <p>Create a new candidate account with their profile information</p>
-        } @else {
-        <h1>Edit <span class="gradient-text">Candidate Profile</span></h1>
-        <p>Update the candidate's profile, experience, education, and skills</p>
-        }
+        <!-- Page Title -->
+        <div class="header-content">
+            @if (isNewCandidate()) {
+            <h1>Add New <span class="gradient-text">Candidate</span></h1>
+            <p>Create a new candidate account with their profile information</p>
+            } @else {
+            <h1>Edit <span class="gradient-text">Candidate Profile</span></h1>
+            <p>Update the candidate's profile, experience, education, and skills</p>
+            }
+        </div>
     </div>
 
     <div class="cv-container">
