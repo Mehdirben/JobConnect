@@ -297,6 +297,54 @@ public class JobsController : ControllerBase
         return NoContent();
     }
 
+    [HttpPost("{id}/publish")]
+    [Authorize(Roles = "Company")]
+    public async Task<ActionResult> PublishJob(int id)
+    {
+        var userId = GetUserId();
+        var company = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
+
+        if (company == null)
+            return NotFound("Company profile not found");
+
+        var job = await _context.JobPostings
+            .FirstOrDefaultAsync(j => j.Id == id && j.CompanyId == company.Id);
+
+        if (job == null)
+            return NotFound("Job not found");
+
+        job.Status = JobStatus.Published;
+        job.PublishedAt = DateTime.UtcNow;
+        job.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpPost("{id}/close")]
+    [Authorize(Roles = "Company")]
+    public async Task<ActionResult> CloseJob(int id)
+    {
+        var userId = GetUserId();
+        var company = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
+
+        if (company == null)
+            return NotFound("Company profile not found");
+
+        var job = await _context.JobPostings
+            .FirstOrDefaultAsync(j => j.Id == id && j.CompanyId == company.Id);
+
+        if (job == null)
+            return NotFound("Job not found");
+
+        job.Status = JobStatus.Closed;
+        job.ClosedAt = DateTime.UtcNow;
+        job.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
     // Admin endpoints - manage all jobs
     [HttpGet("admin/all")]
     [Authorize(Roles = "Admin")]
