@@ -2,10 +2,11 @@ import { Routes } from '@angular/router';
 import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard, redirectAdminFromJobsGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    // Public routes
+    // Root redirects to jobs
     {
         path: '',
-        loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent)
+        redirectTo: 'jobs',
+        pathMatch: 'full'
     },
     {
         path: 'jobs',
