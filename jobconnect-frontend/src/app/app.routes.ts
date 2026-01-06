@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard } from './core/guards/auth.guard';
+import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard, redirectAdminFromJobsGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     // Public routes
@@ -9,10 +9,12 @@ export const routes: Routes = [
     },
     {
         path: 'jobs',
+        canActivate: [redirectAdminFromJobsGuard],
         loadComponent: () => import('./features/jobs/jobs-list.component').then(m => m.JobsListComponent)
     },
     {
         path: 'jobs/:id',
+        canActivate: [redirectAdminFromJobsGuard],
         loadComponent: () => import('./features/jobs/job-detail.component').then(m => m.JobDetailComponent)
     },
 

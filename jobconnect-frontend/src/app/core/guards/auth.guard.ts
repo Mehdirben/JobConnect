@@ -61,3 +61,16 @@ export const adminGuard: CanActivateFn = () => {
     router.navigate(['/']);
     return false;
 };
+
+// Guard to redirect admin users from public jobs page to admin jobs page
+export const redirectAdminFromJobsGuard: CanActivateFn = () => {
+    const authService = inject(AuthService);
+    const router = inject(Router);
+
+    if (authService.isAuthenticated() && authService.userRole() === 'Admin') {
+        router.navigate(['/admin/jobs']);
+        return false;
+    }
+
+    return true;
+};

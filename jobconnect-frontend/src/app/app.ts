@@ -18,7 +18,9 @@ import { NotificationService } from './core/services/notification.service';
           </a>
           
           <div class="nav-center">
-            <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
+            @if (!authService.isAdmin()) {
+              <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
+            }
             
             @if (authService.isAuthenticated()) {
               @if (authService.isCandidate()) {
@@ -76,13 +78,15 @@ import { NotificationService } from './core/services/notification.service';
           </div>
           
           <div class="mobile-nav-links">
-            <a routerLink="/jobs" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              </svg>
-              <span>Browse Jobs</span>
-            </a>
+            @if (!authService.isAdmin()) {
+              <a routerLink="/jobs" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                <span>Browse Jobs</span>
+              </a>
+            }
             
             @if (authService.isAuthenticated()) {
               @if (authService.isCandidate()) {
