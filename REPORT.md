@@ -113,6 +113,15 @@ The JobConnect application is designed for:
 | ✅ Status Updates | Move candidates through hiring stages |
 | 📊 Dashboard | Overview of active jobs and incoming applications |
 
+### Administrator Features
+
+| Feature | Description |
+| --- | --- |
+| 👥 User Management | View, create, edit, and delete all user accounts |
+| 📋 Job Management | Oversee and manage all job postings platform-wide |
+| 📊 Platform Oversight | Complete visibility into all platform activity and data |
+| 🔧 Account Creation | Create new Candidate or Company accounts directly |
+
 ### Application Pipeline
 
 The application supports the following status stages:
@@ -220,7 +229,8 @@ public class User
 public enum UserRole
 {
     Candidate,
-    Company
+    Company,
+    Admin
 }
 ```
 
@@ -821,6 +831,18 @@ Companies can manage their job postings, view application statistics, and access
 ![Kanban Board](docs/images/kanban.png)
 
 Drag-and-drop candidate management through hiring stages. View candidate profiles, update statuses, and organize your recruitment pipeline.
+
+### Admin User Management
+
+![Admin User Management](docs/images/manage-users.png)
+
+Administrators can view and manage all user accounts on the platform, including creating new Candidates or Companies and editing existing profiles.
+
+### Admin Job Management
+
+![Admin Job Management](docs/images/manage-jobs.png)
+
+Administrators have full oversight of all job postings across the platform, with the ability to edit, publish, or remove any listing.
 
 ### Coolify Deployment
 

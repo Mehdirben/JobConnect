@@ -59,6 +59,16 @@
       <p align="center"><em>Drag-and-drop Kanban board for hiring pipeline</em></p>
     </td>
   </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/images/manage-users.png" alt="Admin User Management" width="100%">
+      <p align="center"><em>Admin panel for managing all users</em></p>
+    </td>
+    <td width="50%">
+      <img src="docs/images/manage-jobs.png" alt="Admin Job Management" width="100%">
+      <p align="center"><em>Admin panel for managing all job postings</em></p>
+    </td>
+  </tr>
 </table>
 
 ---
@@ -85,11 +95,19 @@
 | **Candidate Profiles** | View detailed candidate profiles with experience, education, and skill match scores. |
 | **AI-Powered Matching** | Algorithm calculates compatibility score based on required/optional skills and proficiency. |
 
+### 🔧 For Administrators
+
+| Feature | Description |
+|---------|-------------|
+| **User Management** | View, create, edit, and manage all user accounts (Candidates and Companies). |
+| **Job Management** | Oversee all job postings across the platform with full CRUD capabilities. |
+| **Platform Oversight** | Complete visibility into all platform activity and data. |
+
 ### 🔐 Authentication & Security
 
 - JWT-based authentication with secure token refresh
 - BCrypt password hashing
-- Role-based access control (Candidate/Company)
+- Role-based access control (Candidate/Company/Admin)
 - Protected API endpoints with authorization guards
 - CORS configuration for secure cross-origin requests
 
