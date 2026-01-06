@@ -44,6 +44,11 @@ export interface ChangePasswordRequest {
     newPassword: string;
 }
 
+export interface ChangeNameRequest {
+    firstName: string;
+    lastName: string;
+}
+
 // Candidate types
 export interface CandidateProfile {
     id: number;

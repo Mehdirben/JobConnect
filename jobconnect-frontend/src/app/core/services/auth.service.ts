@@ -2,7 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { AuthResponse, ChangeEmailRequest, ChangePasswordRequest, LoginRequest, RegisterRequest, UserRole } from '../models';
+import { AuthResponse, ChangeEmailRequest, ChangeNameRequest, ChangePasswordRequest, LoginRequest, RegisterRequest, UserRole } from '../models';
 import { ConfigService } from './config.service';
 
 interface JwtPayload {
@@ -166,6 +166,10 @@ export class AuthService {
 
     changePassword(request: ChangePasswordRequest): Observable<{ message: string }> {
         return this.http.put<{ message: string }>(`${this.API_URL}/change-password`, request);
+    }
+
+    changeName(request: ChangeNameRequest): Observable<{ message: string }> {
+        return this.http.put<{ message: string }>(`${this.API_URL}/change-name`, request);
     }
 
     private handleAuthSuccess(response: AuthResponse): void {

@@ -5,15 +5,49 @@ import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
-    selector: 'app-settings',
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
-    template: `
+  selector: 'app-settings',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  template: `
     <div class="settings-container">
       <div class="settings-content">
         <div class="settings-header">
           <h1>Account Settings</h1>
-          <p>Manage your email and password</p>
+          <p>Manage your account details and preferences</p>
+        </div>
+
+        <!-- Change Name Section -->
+        <div class="settings-card">
+          <div class="card-header">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <h2>Change Name</h2>
+          </div>
+          
+          <form [formGroup]="nameForm" (ngSubmit)="changeName()">
+            <div class="form-row">
+              <div class="form-group">
+                <label>{{ authService.isCompany() ? 'Company Name' : 'First Name' }}</label>
+                <input type="text" formControlName="firstName" [placeholder]="authService.isCompany() ? 'Enter company name' : 'Enter first name'">
+              </div>
+              @if (!authService.isCompany()) {
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" formControlName="lastName" placeholder="Enter last name">
+              </div>
+              }
+            </div>
+
+            @if (nameError()) {
+              <div class="error-message">{{ nameError() }}</div>
+            }
+
+            <button type="submit" class="btn-primary" [disabled]="nameLoading() || nameForm.invalid">
+              {{ nameLoading() ? 'Updating...' : 'Update Name' }}
+            </button>
+          </form>
         </div>
 
         <!-- Change Email Section -->
@@ -91,82 +125,113 @@ import { NotificationService } from '../../core/services/notification.service';
       </div>
     </div>
   `,
-    styleUrl: './settings.component.scss'
+  styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-    emailForm: FormGroup;
-    passwordForm: FormGroup;
+  nameForm: FormGroup;
+  emailForm: FormGroup;
+  passwordForm: FormGroup;
 
-    emailLoading = signal(false);
-    emailError = signal<string | null>(null);
+  nameLoading = signal(false);
+  nameError = signal<string | null>(null);
 
-    passwordLoading = signal(false);
-    passwordError = signal<string | null>(null);
+  emailLoading = signal(false);
+  emailError = signal<string | null>(null);
 
-    constructor(
-        private fb: FormBuilder,
-        public authService: AuthService,
-        private notificationService: NotificationService
-    ) {
-        this.emailForm = this.fb.group({
-            newEmail: ['', [Validators.required, Validators.email]],
-            currentPassword: ['', Validators.required]
-        });
+  passwordLoading = signal(false);
+  passwordError = signal<string | null>(null);
 
-        this.passwordForm = this.fb.group({
-            currentPassword: ['', Validators.required],
-            newPassword: ['', [Validators.required, Validators.minLength(6)]],
-            confirmPassword: ['', Validators.required]
-        });
-    }
+  constructor(
+    private fb: FormBuilder,
+    public authService: AuthService,
+    private notificationService: NotificationService
+  ) {
+    this.nameForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(1)]],
+      lastName: ['']
+    });
 
-    passwordMismatch(): boolean {
-        const newPass = this.passwordForm.get('newPassword')?.value;
-        const confirmPass = this.passwordForm.get('confirmPassword')?.value;
-        return confirmPass && newPass !== confirmPass;
-    }
+    this.emailForm = this.fb.group({
+      newEmail: ['', [Validators.required, Validators.email]],
+      currentPassword: ['', Validators.required]
+    });
 
-    changeEmail() {
-        if (this.emailForm.invalid) return;
+    this.passwordForm = this.fb.group({
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    });
+  }
 
-        this.emailLoading.set(true);
-        this.emailError.set(null);
+  passwordMismatch(): boolean {
+    const newPass = this.passwordForm.get('newPassword')?.value;
+    const confirmPass = this.passwordForm.get('confirmPassword')?.value;
+    return confirmPass && newPass !== confirmPass;
+  }
 
-        this.authService.changeEmail({
-            newEmail: this.emailForm.value.newEmail,
-            currentPassword: this.emailForm.value.currentPassword
-        }).subscribe({
-            next: () => {
-                this.emailLoading.set(false);
-                this.emailForm.reset();
-                this.notificationService.success('Email updated successfully');
-            },
-            error: (err) => {
-                this.emailLoading.set(false);
-                this.emailError.set(err.error?.message || 'Failed to update email');
-            }
-        });
-    }
+  changeName() {
+    if (this.nameForm.invalid) return;
 
-    changePassword() {
-        if (this.passwordForm.invalid || this.passwordMismatch()) return;
+    this.nameLoading.set(true);
+    this.nameError.set(null);
 
-        this.passwordLoading.set(true);
-        this.passwordError.set(null);
+    this.authService.changeName({
+      firstName: this.nameForm.value.firstName,
+      lastName: this.nameForm.value.lastName
+    }).subscribe({
+      next: () => {
+        this.nameLoading.set(false);
+        this.nameForm.reset();
+        this.notificationService.success('Name updated successfully');
+      },
+      error: (err) => {
+        this.nameLoading.set(false);
+        this.nameError.set(err.error?.message || 'Failed to update name');
+      }
+    });
+  }
 
-        this.authService.changePassword({
-            currentPassword: this.passwordForm.value.currentPassword,
-            newPassword: this.passwordForm.value.newPassword
-        }).subscribe({
-            next: () => {
-                this.passwordLoading.set(false);
-                this.passwordForm.reset();
-                this.notificationService.success('Password updated successfully');
-            },
-            error: (err) => {
-                this.passwordLoading.set(false);
-                this.passwordError.set(err.error?.message || 'Failed to update password');
-            }
-        });
-    }
+  changeEmail() {
+    if (this.emailForm.invalid) return;
+
+    this.emailLoading.set(true);
+    this.emailError.set(null);
+
+    this.authService.changeEmail({
+      newEmail: this.emailForm.value.newEmail,
+      currentPassword: this.emailForm.value.currentPassword
+    }).subscribe({
+      next: () => {
+        this.emailLoading.set(false);
+        this.emailForm.reset();
+        this.notificationService.success('Email updated successfully');
+      },
+      error: (err) => {
+        this.emailLoading.set(false);
+        this.emailError.set(err.error?.message || 'Failed to update email');
+      }
+    });
+  }
+
+  changePassword() {
+    if (this.passwordForm.invalid || this.passwordMismatch()) return;
+
+    this.passwordLoading.set(true);
+    this.passwordError.set(null);
+
+    this.authService.changePassword({
+      currentPassword: this.passwordForm.value.currentPassword,
+      newPassword: this.passwordForm.value.newPassword
+    }).subscribe({
+      next: () => {
+        this.passwordLoading.set(false);
+        this.passwordForm.reset();
+        this.notificationService.success('Password updated successfully');
+      },
+      error: (err) => {
+        this.passwordLoading.set(false);
+        this.passwordError.set(err.error?.message || 'Failed to update password');
+      }
+    });
+  }
 }

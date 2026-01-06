@@ -283,8 +283,8 @@ public class AdminController : ControllerBase
             }
             else if (user.Role == UserRole.Admin)
             {
-                firstName = "Admin";
-                lastName = "";
+                firstName = user.FirstName ?? "Admin";
+                lastName = user.LastName ?? "";
             }
 
             result.Add(new AdminUserDto(
@@ -330,8 +330,8 @@ public class AdminController : ControllerBase
         }
         else if (user.Role == UserRole.Admin)
         {
-            firstName = "Admin";
-            lastName = "";
+            firstName = user.FirstName ?? "Admin";
+            lastName = user.LastName ?? "";
         }
 
         return Ok(new AdminUserDto(
@@ -362,7 +362,9 @@ public class AdminController : ControllerBase
         {
             Email = dto.Email,
             PasswordHash = _authService.HashPassword(dto.Password),
-            Role = role
+            Role = role,
+            FirstName = role == UserRole.Admin ? dto.FirstName : null,
+            LastName = role == UserRole.Admin ? dto.LastName : null
         };
 
         _context.Users.Add(user);
@@ -446,6 +448,13 @@ public class AdminController : ControllerBase
                 firstName = company.Name;
                 lastName = "";
             }
+        }
+        else if (user.Role == UserRole.Admin)
+        {
+            if (dto.FirstName != null) user.FirstName = dto.FirstName;
+            if (dto.LastName != null) user.LastName = dto.LastName;
+            firstName = user.FirstName ?? "Admin";
+            lastName = user.LastName ?? "";
         }
 
         user.UpdatedAt = DateTime.UtcNow;

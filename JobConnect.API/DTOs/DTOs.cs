@@ -36,6 +36,11 @@ public record ChangePasswordDto(
     [Required] [MinLength(6)] string NewPassword
 );
 
+public record ChangeNameDto(
+    [Required] string FirstName,
+    [Required] string LastName
+);
+
 // User DTOs
 public record UserDto(
     int Id,

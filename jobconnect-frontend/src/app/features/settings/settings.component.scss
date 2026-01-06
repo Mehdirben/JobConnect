@@ -125,6 +125,20 @@
 }
 
 /* Form Styles */
+.form-row {
+    display: flex;
+    gap: 1rem;
+
+    .form-group {
+        flex: 1;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
 .form-group {
     margin-bottom: 1.25rem;
 
