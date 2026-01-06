@@ -17,6 +17,15 @@
 
 ---
 
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [📘 Technical Report](REPORT.md) | Complete technical documentation including architecture, data models, and API reference |
+| [🚀 Coolify Deployment Guide](COOLIFY_DEPLOYMENT.md) | Step-by-step guide for deploying JobConnect on Coolify |
+
+---
+
 ## 📸 Screenshots
 
 <table>
@@ -401,15 +410,6 @@ dotnet test
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
----
-
-## 📚 Documentation
-
-| Document | Description |
-|----------|-------------|
-| [📘 Technical Report](REPORT.md) | Complete technical documentation including architecture, data models, and API reference |
-| [🚀 Coolify Deployment Guide](COOLIFY_DEPLOYMENT.md) | Step-by-step guide for deploying JobConnect on Coolify |
 
 ---
 
