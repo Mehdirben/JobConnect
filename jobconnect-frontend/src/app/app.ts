@@ -32,7 +32,7 @@ import { NotificationService } from './core/services/notification.service';
               }
               @if (authService.isAdmin()) {
                 <a routerLink="/admin/jobs" routerLinkActive="active" class="nav-link">Manage Jobs</a>
-                <a routerLink="/admin/users" routerLinkActive="active" class="nav-link">Users</a>
+                <a routerLink="/admin/users" routerLinkActive="active" class="nav-link">Manage Users</a>
               }
             }
           </div>
