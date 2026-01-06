@@ -1,0 +1,98 @@
+<div class="admin-jobs-page">
+    <!-- Hero Header -->
+    <div class="page-header">
+        <div class="header-orb header-orb-1"></div>
+        <div class="header-orb header-orb-2"></div>
+
+        <div class="header-badge">
+            <span class="badge-dot"></span>
+            <span>Admin Panel</span>
+        </div>
+
+        <h1>Manage <span class="gradient-text">All Jobs</span></h1>
+        <p>View, edit, and delete all job postings across the platform</p>
+
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <div class="search-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                    </svg>
+                </div>
+                <input type="text" [(ngModel)]="searchQuery" (input)="onSearchInput()"
+                    placeholder="Search by title, company, or description...">
+            </div>
+
+            <app-custom-dropdown [options]="statusOptions" [(ngModel)]="statusFilter"
+                (selectionChange)="onFilterChange()" placeholder="All Statuses">
+            </app-custom-dropdown>
+        </div>
+    </div>
+
+    <div class="jobs-container">
+        @if (loading()) {
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading jobs...</p>
+        </div>
+        } @else if (jobs().length === 0) {
+        <div class="empty-state">
+            <h3>No Jobs Found</h3>
+            <p>No jobs match your current filters.</p>
+        </div>
+        } @else {
+        <div class="jobs-list">
+            @for (job of jobs(); track job.id; let i = $index) {
+            <div class="job-item" [style.animation-delay]="(i * 0.04) + 's'">
+                <div class="job-logo">{{ job.companyName.charAt(0) }}</div>
+
+                <div class="job-info">
+                    <h3>{{ job.title }}</h3>
+                    <span class="company-name">{{ job.companyName }}</span>
+                </div>
+
+                <div class="job-meta">
+                    <span class="tag status" [class]="'status-' + job.status.toLowerCase()">
+                        {{ job.status }}
+                    </span>
+                    @if (job.location) {
+                    <span class="tag location">📍 {{ job.location }}</span>
+                    }
+                </div>
+
+                <div class="job-stats">
+                    <span class="applicants">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"
+                            height="14">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                        </svg>
+                        {{ job.applicationCount }}
+                    </span>
+                    <span class="posted">{{ job.createdAt | date:'shortDate' }}</span>
+                </div>
+
+                <div class="job-actions">
+                    <a [routerLink]="['/admin/jobs', job.id, 'edit']" class="action-btn edit-btn" title="Edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </a>
+                    <button class="action-btn delete-btn" (click)="deleteJob(job)" title="Delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+    </div>
+</div>
