@@ -27,6 +27,7 @@ export class AuthService {
     readonly userRole = computed(() => this.userSignal()?.role ?? null);
     readonly isCandidate = computed(() => this.userRole() === 'Candidate');
     readonly isCompany = computed(() => this.userRole() === 'Company');
+    readonly isAdmin = computed(() => this.userRole() === 'Admin');
 
     constructor(
         private http: HttpClient,

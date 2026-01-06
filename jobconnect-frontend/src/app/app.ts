@@ -28,6 +28,10 @@ import { NotificationService } from './core/services/notification.service';
               @if (authService.isCompany()) {
                 <a routerLink="/company/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
               }
+              @if (authService.isAdmin()) {
+                <a routerLink="/admin/jobs" routerLinkActive="active" class="nav-link">Manage Jobs</a>
+                <a routerLink="/admin/candidates" routerLinkActive="active" class="nav-link">Candidates</a>
+              }
             }
           </div>
 
@@ -108,6 +112,24 @@ import { NotificationService } from './core/services/notification.service';
                     <rect x="3" y="14" width="7" height="7"/>
                   </svg>
                   <span>Dashboard</span>
+                </a>
+              }
+              @if (authService.isAdmin()) {
+                <a routerLink="/admin/jobs" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                  <span>Manage Jobs</span>
+                </a>
+                <a routerLink="/admin/candidates" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span>Manage Candidates</span>
                 </a>
               }
             }

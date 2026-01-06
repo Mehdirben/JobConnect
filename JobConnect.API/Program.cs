@@ -107,6 +107,26 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
+    
+    // Seed admin account if not exists
+    var adminEmail = builder.Configuration["AdminSettings:Email"] ?? "admin@jobconnect.com";
+    var adminPassword = builder.Configuration["AdminSettings:Password"] ?? "Admin123!";
+    
+    if (!db.Users.Any(u => u.Role == JobConnect.API.Models.UserRole.Admin))
+    {
+        var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+        var adminUser = new JobConnect.API.Models.User
+        {
+            Email = adminEmail,
+            PasswordHash = authService.HashPassword(adminPassword),
+            Role = JobConnect.API.Models.UserRole.Admin,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        db.Users.Add(adminUser);
+        db.SaveChanges();
+        Console.WriteLine($"Admin account created: {adminEmail}");
+    }
 }
 
 app.Run();

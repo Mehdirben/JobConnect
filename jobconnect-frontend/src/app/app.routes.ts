@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, candidateGuard, companyGuard, guestGuard } from './core/guards/auth.guard';
+import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     // Public routes
@@ -84,6 +84,31 @@ export const routes: Routes = [
             {
                 path: '',
                 redirectTo: 'dashboard',
+                pathMatch: 'full'
+            }
+        ]
+    },
+
+    // Admin routes
+    {
+        path: 'admin',
+        canActivate: [adminGuard],
+        children: [
+            {
+                path: 'jobs',
+                loadComponent: () => import('./features/admin/jobs/admin-jobs.component').then(m => m.AdminJobsComponent)
+            },
+            {
+                path: 'jobs/:id/edit',
+                loadComponent: () => import('./features/admin/job-edit/admin-job-edit.component').then(m => m.AdminJobEditComponent)
+            },
+            {
+                path: 'candidates',
+                loadComponent: () => import('./features/admin/candidates/admin-candidates.component').then(m => m.AdminCandidatesComponent)
+            },
+            {
+                path: '',
+                redirectTo: 'jobs',
                 pathMatch: 'full'
             }
         ]
