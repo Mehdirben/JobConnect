@@ -1,9 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-<<<<<<< HEAD
 import { RouterLink } from '@angular/router';
-=======
->>>>>>> upstream/main
 import { CandidateService } from '../../../core/services/candidate.service';
 import { Application, ApplicationStatus } from '../../../core/models';
 
@@ -16,25 +13,18 @@ interface StatusStep {
 @Component({
     selector: 'app-application-tracker',
     standalone: true,
-<<<<<<< HEAD
     imports: [CommonModule, RouterLink],
-=======
-    imports: [CommonModule],
->>>>>>> upstream/main
     templateUrl: './application-tracker.component.html',
     styleUrl: './application-tracker.component.scss'
 })
 export class ApplicationTrackerComponent implements OnInit {
     applications = signal<Application[]>([]);
     loading = signal(true);
-<<<<<<< HEAD
-=======
     loadingMore = signal(false);
     hasMore = signal(false);
     totalCount = signal(0);
     currentPage = 1;
     readonly pageSize = 20;
->>>>>>> upstream/main
 
     readonly statusSteps: StatusStep[] = [
         { status: ApplicationStatus.Submitted, label: 'Submitted', icon: '📤' },
@@ -51,11 +41,6 @@ export class ApplicationTrackerComponent implements OnInit {
     }
 
     private loadApplications() {
-<<<<<<< HEAD
-        this.candidateService.getApplications().subscribe({
-            next: (apps) => {
-                this.applications.set(apps);
-=======
         this.currentPage = 1;
         this.loading.set(true);
         this.candidateService.getApplications(this.currentPage, this.pageSize).subscribe({
@@ -63,15 +48,12 @@ export class ApplicationTrackerComponent implements OnInit {
                 this.applications.set(result.items);
                 this.totalCount.set(result.totalCount);
                 this.hasMore.set(result.hasMore);
->>>>>>> upstream/main
                 this.loading.set(false);
             },
             error: () => this.loading.set(false)
         });
     }
 
-<<<<<<< HEAD
-=======
     loadMore() {
         this.currentPage++;
         this.loadingMore.set(true);
@@ -85,7 +67,6 @@ export class ApplicationTrackerComponent implements OnInit {
         });
     }
 
->>>>>>> upstream/main
     getStatusIndex(status: string): number {
         return this.statusSteps.findIndex(s => s.status === status);
     }

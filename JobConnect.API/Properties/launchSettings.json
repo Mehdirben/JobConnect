@@ -5,18 +5,10 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-<<<<<<< HEAD
       "applicationUrl": "http://localhost:5001",
-=======
-      "applicationUrl": "http://localhost:5286",
->>>>>>> upstream/main
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> upstream/main

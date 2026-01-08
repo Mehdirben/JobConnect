@@ -8,7 +8,6 @@ using JobConnect.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-<<<<<<< HEAD
 // Load .env file if it exists (for local development)
 var envPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
 if (File.Exists(envPath))
@@ -24,8 +23,6 @@ if (File.Exists(envPath))
     }
 }
 
-=======
->>>>>>> upstream/main
 // Helper to convert PostgreSQL URI to ADO.NET connection string
 static string ConvertConnectionString(string? connectionString)
 {
@@ -67,11 +64,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMatchingScoreService, MatchingScoreService>();
-<<<<<<< HEAD
 builder.Services.AddScoped<IInterviewSchedulingService, InterviewSchedulingService>();
 builder.Services.AddSingleton<IHmsService, HmsService>();
-=======
->>>>>>> upstream/main
 
 // JWT Authentication
 var jwtSecret = builder.Configuration["JwtSettings:Secret"] ?? "YourSuperSecretKeyThatIsAtLeast32CharactersLong!";
@@ -125,43 +119,50 @@ app.MapControllers();
 // Health check endpoint
 app.MapGet("/api/health", () => new { status = "healthy", timestamp = DateTime.UtcNow });
 
-// Auto-migrate database on startup
+// Auto-create database on startup (only creates tables if they don't exist)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
-<<<<<<< HEAD
-=======
     
-    // Seed admin account if not exists and credentials are configured
-    var adminEmail = builder.Configuration["AdminSettings:Email"];
-    var adminPassword = builder.Configuration["AdminSettings:Password"];
+    // EnsureCreated checks if the database exists, and if not, creates it along with all tables
+    // If the database already exists with tables, it does nothing (no error)
+    db.Database.EnsureCreated();
     
-    if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword) 
-        && !db.Users.Any(u => u.Role == JobConnect.API.Models.UserRole.Admin))
+    try
     {
-        var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
-        var adminUser = new JobConnect.API.Models.User
+        // Seed admin account if not exists and credentials are configured
+        var adminEmail = builder.Configuration["AdminSettings:Email"];
+        var adminPassword = builder.Configuration["AdminSettings:Password"];
+        
+        if (!string.IsNullOrEmpty(adminEmail) && !string.IsNullOrEmpty(adminPassword) 
+            && !db.Users.Any(u => u.Role == JobConnect.API.Models.UserRole.Admin))
         {
-            Email = adminEmail,
-            PasswordHash = authService.HashPassword(adminPassword),
-            Role = JobConnect.API.Models.UserRole.Admin,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-        db.Users.Add(adminUser);
-        db.SaveChanges();
-        Console.WriteLine($"Admin account created: {adminEmail}");
+            var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+            var adminUser = new JobConnect.API.Models.User
+            {
+                Email = adminEmail,
+                PasswordHash = authService.HashPassword(adminPassword),
+                Role = JobConnect.API.Models.UserRole.Admin,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+            db.Users.Add(adminUser);
+            db.SaveChanges();
+            Console.WriteLine($"Admin account created: {adminEmail}");
+        }
+        
+        // Seed sample data (only when SEED_DATABASE=true)
+        if (builder.Configuration["SEED_DATABASE"]?.ToLower() == "true")
+        {
+            var forceSeed = builder.Configuration["FORCE_SEED"]?.ToLower() == "true";
+            var authServiceForSeeder = scope.ServiceProvider.GetRequiredService<IAuthService>();
+            DatabaseSeeder.SeedData(db, authServiceForSeeder, forceSeed);
+        }
     }
-    
-    // Seed sample data (only when SEED_DATABASE=true)
-    if (builder.Configuration["SEED_DATABASE"]?.ToLower() == "true")
+    catch (Exception ex)
     {
-        var forceSeed = builder.Configuration["FORCE_SEED"]?.ToLower() == "true";
-        var authServiceForSeeder = scope.ServiceProvider.GetRequiredService<IAuthService>();
-        DatabaseSeeder.SeedData(db, authServiceForSeeder, forceSeed);
+        Console.WriteLine($"Warning: Database seeding skipped - {ex.Message}");
     }
->>>>>>> upstream/main
 }
 
 app.Run();

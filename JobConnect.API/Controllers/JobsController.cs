@@ -24,13 +24,6 @@ public class JobsController : ControllerBase
     // Public endpoint - get all published jobs
     [HttpGet]
     [AllowAnonymous]
-<<<<<<< HEAD
-    public async Task<ActionResult<List<JobPostingDto>>> GetJobs(
-        [FromQuery] string? search,
-        [FromQuery] string? location,
-        [FromQuery] string? type,
-        [FromQuery] int[]? skills)
-=======
     public async Task<ActionResult<PagedResult<JobPostingDto>>> GetJobs(
         [FromQuery] string? search,
         [FromQuery] string? location,
@@ -38,7 +31,6 @@ public class JobsController : ControllerBase
         [FromQuery] int[]? skills,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
->>>>>>> upstream/main
     {
         var query = _context.JobPostings
             .Include(j => j.Company)
@@ -71,11 +63,6 @@ public class JobsController : ControllerBase
                 j.RequiredSkills.Any(rs => skills.Contains(rs.SkillId)));
         }
 
-<<<<<<< HEAD
-        var jobs = await query.OrderByDescending(j => j.PublishedAt).ToListAsync();
-
-        return Ok(jobs.Select(j => new JobPostingDto(
-=======
         var totalCount = await query.CountAsync();
         var jobs = await query
             .OrderByDescending(j => j.PublishedAt)
@@ -84,7 +71,6 @@ public class JobsController : ControllerBase
             .ToListAsync();
 
         var items = jobs.Select(j => new JobPostingDto(
->>>>>>> upstream/main
             j.Id,
             j.CompanyId,
             j.Company.Name,
@@ -109,9 +95,6 @@ public class JobsController : ControllerBase
             j.CreatedAt,
             j.PublishedAt,
             j.Applications.Count
-<<<<<<< HEAD
-        )));
-=======
         )).ToList();
 
         return Ok(new PagedResult<JobPostingDto>(
@@ -121,7 +104,6 @@ public class JobsController : ControllerBase
             pageSize,
             page * pageSize < totalCount
         ));
->>>>>>> upstream/main
     }
 
     [HttpGet("{id}")]
@@ -323,21 +305,13 @@ public class JobsController : ControllerBase
         var company = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (company == null)
-<<<<<<< HEAD
-            return NotFound();
-=======
             return NotFound("Company profile not found");
->>>>>>> upstream/main
 
         var job = await _context.JobPostings
             .FirstOrDefaultAsync(j => j.Id == id && j.CompanyId == company.Id);
 
         if (job == null)
-<<<<<<< HEAD
-            return NotFound();
-=======
             return NotFound("Job not found");
->>>>>>> upstream/main
 
         job.Status = JobStatus.Published;
         job.PublishedAt = DateTime.UtcNow;
@@ -347,7 +321,6 @@ public class JobsController : ControllerBase
         return Ok();
     }
 
-<<<<<<< HEAD
     [HttpPost("{id}/unpublish")]
     [Authorize(Roles = "Company")]
     public async Task<ActionResult> UnpublishJob(int id)
@@ -371,8 +344,6 @@ public class JobsController : ControllerBase
         return Ok();
     }
 
-=======
->>>>>>> upstream/main
     [HttpPost("{id}/close")]
     [Authorize(Roles = "Company")]
     public async Task<ActionResult> CloseJob(int id)
@@ -381,21 +352,13 @@ public class JobsController : ControllerBase
         var company = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (company == null)
-<<<<<<< HEAD
-            return NotFound();
-=======
             return NotFound("Company profile not found");
->>>>>>> upstream/main
 
         var job = await _context.JobPostings
             .FirstOrDefaultAsync(j => j.Id == id && j.CompanyId == company.Id);
 
         if (job == null)
-<<<<<<< HEAD
-            return NotFound();
-=======
             return NotFound("Job not found");
->>>>>>> upstream/main
 
         job.Status = JobStatus.Closed;
         job.ClosedAt = DateTime.UtcNow;
@@ -404,8 +367,6 @@ public class JobsController : ControllerBase
 
         return Ok();
     }
-<<<<<<< HEAD
-=======
 
     // Admin endpoints - manage all jobs
     [HttpGet("admin/all")]
@@ -546,6 +507,4 @@ public class JobsController : ControllerBase
 
         return NoContent();
     }
->>>>>>> upstream/main
 }
-

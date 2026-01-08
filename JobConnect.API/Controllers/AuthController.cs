@@ -185,8 +185,6 @@ public class AuthController : ControllerBase
 
         return Ok(new { message = "Password changed successfully" });
     }
-<<<<<<< HEAD
-=======
 
     [HttpPut("change-name")]
     [Microsoft.AspNetCore.Authorization.Authorize]
@@ -215,7 +213,6 @@ public class AuthController : ControllerBase
         }
         else if (user.Role == UserRole.Company && user.Company != null)
         {
-            // For companies, combine first and last name as company name, or just use first name
             user.Company.Name = string.IsNullOrWhiteSpace(dto.LastName) 
                 ? dto.FirstName 
                 : $"{dto.FirstName} {dto.LastName}".Trim();
@@ -235,5 +232,4 @@ public class AuthController : ControllerBase
 
         return Ok(new { message = "Name changed successfully" });
     }
->>>>>>> upstream/main
 }

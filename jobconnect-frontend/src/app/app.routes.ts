@@ -1,20 +1,4 @@
 import { Routes } from '@angular/router';
-<<<<<<< HEAD
-import { authGuard, candidateGuard, companyGuard, guestGuard } from './core/guards/auth.guard';
-
-export const routes: Routes = [
-    // Public routes
-    {
-        path: '',
-        loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent)
-    },
-    {
-        path: 'jobs',
-        loadComponent: () => import('./features/jobs/jobs-list.component').then(m => m.JobsListComponent)
-    },
-    {
-        path: 'jobs/:id',
-=======
 import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard, redirectAdminFromJobsGuard, pwaGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -30,11 +14,9 @@ export const routes: Routes = [
         canActivate: [redirectAdminFromJobsGuard],
         loadComponent: () => import('./features/jobs/jobs-list.component').then(m => m.JobsListComponent)
     },
-
     {
         path: 'jobs/:id',
         canActivate: [redirectAdminFromJobsGuard],
->>>>>>> upstream/main
         loadComponent: () => import('./features/jobs/job-detail.component').then(m => m.JobDetailComponent)
     },
 
@@ -104,13 +86,10 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/company/candidates/candidates-view.component').then(m => m.CandidatesViewComponent)
             },
             {
-<<<<<<< HEAD
                 path: 'availability',
                 loadComponent: () => import('./features/company/availability-config/availability-config.component').then(m => m.AvailabilityConfigComponent)
             },
             {
-=======
->>>>>>> upstream/main
                 path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'
@@ -118,7 +97,6 @@ export const routes: Routes = [
         ]
     },
 
-<<<<<<< HEAD
     // Interview routes (authenticated users)
     {
         path: 'interviews',
@@ -134,7 +112,8 @@ export const routes: Routes = [
         path: 'candidate/book-interview/:applicationId',
         canActivate: [candidateGuard],
         loadComponent: () => import('./features/interview/book-interview.component').then(m => m.BookInterviewComponent)
-=======
+    },
+
     // Admin routes
     {
         path: 'admin',
@@ -166,7 +145,6 @@ export const routes: Routes = [
                 pathMatch: 'full'
             }
         ]
->>>>>>> upstream/main
     },
 
     // Catch-all

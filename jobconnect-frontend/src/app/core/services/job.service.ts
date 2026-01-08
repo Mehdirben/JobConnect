@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-<<<<<<< HEAD
-import { JobPosting, CreateJobRequest } from '../models';
-=======
 import { JobPosting, CreateJobRequest, PagedResult } from '../models';
->>>>>>> upstream/main
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -16,9 +12,6 @@ export class JobService {
 
     constructor(private http: HttpClient, private configService: ConfigService) { }
 
-<<<<<<< HEAD
-    getJobs(filters?: { search?: string; location?: string; type?: string; skills?: number[] }): Observable<JobPosting[]> {
-=======
     getJobs(filters?: {
         search?: string;
         location?: string;
@@ -27,7 +20,6 @@ export class JobService {
         page?: number;
         pageSize?: number;
     }): Observable<PagedResult<JobPosting>> {
->>>>>>> upstream/main
         let params = new HttpParams();
         if (filters?.search) params = params.set('search', filters.search);
         if (filters?.location) params = params.set('location', filters.location);
@@ -37,13 +29,9 @@ export class JobService {
                 params = params.append('skillIds', skillId.toString());
             });
         }
-<<<<<<< HEAD
-        return this.http.get<JobPosting[]>(this.API_URL, { params });
-=======
         if (filters?.page) params = params.set('page', filters.page.toString());
         if (filters?.pageSize) params = params.set('pageSize', filters.pageSize.toString());
         return this.http.get<PagedResult<JobPosting>>(this.API_URL, { params });
->>>>>>> upstream/main
     }
 
     getJob(id: number): Observable<JobPosting> {
@@ -69,13 +57,8 @@ export class JobService {
     closeJob(id: number): Observable<void> {
         return this.http.post<void>(`${this.API_URL}/${id}/close`, {});
     }
-<<<<<<< HEAD
 
     unpublishJob(id: number): Observable<void> {
         return this.http.post<void>(`${this.API_URL}/${id}/unpublish`, {});
     }
 }
-=======
-}
-
->>>>>>> upstream/main

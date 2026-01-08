@@ -123,31 +123,24 @@ public class CompaniesController : ControllerBase
             .ThenBy(a => a.KanbanOrder)
             .ToListAsync();
 
-<<<<<<< HEAD
         // Get interview IDs for these applications (only get the latest scheduled one, not rescheduled)
         var applicationIds = applications.Select(a => a.Id).ToList();
         var interviews = await _context.Interviews
             .Where(i => applicationIds.Contains(i.ApplicationId) && i.Status != InterviewStatus.Rescheduled)
             .Select(i => new { i.ApplicationId, i.Id })
             .ToListAsync();
-        // Use GroupBy to handle any remaining duplicates, take the latest (highest Id)
         var interviewMap = interviews
             .GroupBy(i => i.ApplicationId)
             .ToDictionary(g => g.Key, g => g.OrderByDescending(i => i.Id).First().Id);
 
-=======
->>>>>>> upstream/main
         return Ok(applications.Select(a => new ApplicationDto(
             a.Id,
             a.CandidateProfileId,
             $"{a.CandidateProfile.FirstName} {a.CandidateProfile.LastName}",
             a.JobPostingId,
             job.Title,
-<<<<<<< HEAD
             company.Id,
             company.Name,
-=======
->>>>>>> upstream/main
             a.Status.ToString(),
             a.MatchingScore,
             a.CoverLetter,
@@ -155,12 +148,8 @@ public class CompaniesController : ControllerBase
             a.KanbanOrder,
             a.AppliedAt,
             a.UpdatedAt,
-<<<<<<< HEAD
             MapCandidateToDto(a.CandidateProfile),
             interviewMap.GetValueOrDefault(a.Id)
-=======
-            MapCandidateToDto(a.CandidateProfile)
->>>>>>> upstream/main
         )));
     }
 
@@ -175,25 +164,18 @@ public class CompaniesController : ControllerBase
 
         var application = await _context.Applications
             .Include(a => a.JobPosting)
-<<<<<<< HEAD
             .Include(a => a.CandidateProfile)
-=======
->>>>>>> upstream/main
             .FirstOrDefaultAsync(a => a.Id == applicationId && a.JobPostingId == jobId && a.JobPosting.CompanyId == company.Id);
 
         if (application == null)
             return NotFound();
 
-<<<<<<< HEAD
         var previousStatus = application.Status;
-=======
->>>>>>> upstream/main
         application.Status = dto.Status;
         if (dto.Notes != null) application.Notes = dto.Notes;
         if (dto.KanbanOrder.HasValue) application.KanbanOrder = dto.KanbanOrder.Value;
         application.UpdatedAt = DateTime.UtcNow;
 
-<<<<<<< HEAD
         // Create notification when status changes to Interview
         if (dto.Status == ApplicationStatus.Interview && previousStatus != ApplicationStatus.Interview)
         {
@@ -210,8 +192,6 @@ public class CompaniesController : ControllerBase
             _context.Notifications.Add(notification);
         }
 
-=======
->>>>>>> upstream/main
         await _context.SaveChangesAsync();
         return Ok();
     }
@@ -229,15 +209,11 @@ public class CompaniesController : ControllerBase
         {
             var application = await _context.Applications
                 .Include(a => a.JobPosting)
-<<<<<<< HEAD
                 .Include(a => a.CandidateProfile)
-=======
->>>>>>> upstream/main
                 .FirstOrDefaultAsync(a => a.Id == update.ApplicationId && a.JobPosting.CompanyId == company.Id);
 
             if (application != null)
             {
-<<<<<<< HEAD
                 var previousStatus = application.Status;
                 application.Status = update.NewStatus;
                 application.KanbanOrder = update.NewOrder;
@@ -260,18 +236,12 @@ public class CompaniesController : ControllerBase
                     };
                     _context.Notifications.Add(notification);
                 }
-=======
-                application.Status = update.NewStatus;
-                application.KanbanOrder = update.NewOrder;
-                application.UpdatedAt = DateTime.UtcNow;
->>>>>>> upstream/main
             }
         }
 
         await _context.SaveChangesAsync();
         return Ok();
     }
-<<<<<<< HEAD
     
     private string GetStatusLabel(ApplicationStatus status)
     {
@@ -286,8 +256,6 @@ public class CompaniesController : ControllerBase
             _ => status.ToString()
         };
     }
-=======
->>>>>>> upstream/main
 
     private JobPostingDto MapJobToDto(JobPosting job, string companyName)
     {

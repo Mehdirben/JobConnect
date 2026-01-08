@@ -70,7 +70,6 @@ public class ApplicationsController : ControllerBase
         _context.Applications.Add(application);
         await _context.SaveChangesAsync();
 
-<<<<<<< HEAD
         // Get company for notification
         var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == job.CompanyId);
         
@@ -92,19 +91,14 @@ public class ApplicationsController : ControllerBase
             await _context.SaveChangesAsync();
         }
 
-=======
->>>>>>> upstream/main
         return Ok(new ApplicationDto(
             application.Id,
             application.CandidateProfileId,
             $"{profile.FirstName} {profile.LastName}",
             application.JobPostingId,
             job.Title,
-<<<<<<< HEAD
             job.CompanyId,
-            "",
-=======
->>>>>>> upstream/main
+            company?.Name ?? "",
             application.Status.ToString(),
             application.MatchingScore,
             application.CoverLetter,
@@ -112,10 +106,7 @@ public class ApplicationsController : ControllerBase
             application.KanbanOrder,
             application.AppliedAt,
             application.UpdatedAt,
-<<<<<<< HEAD
             null,
-=======
->>>>>>> upstream/main
             null
         ));
     }
@@ -149,24 +140,18 @@ public class ApplicationsController : ControllerBase
                 return Forbid();
         }
 
-<<<<<<< HEAD
         // Check for interview
         var interview = await _context.Interviews
             .FirstOrDefaultAsync(i => i.ApplicationId == application.Id);
 
-=======
->>>>>>> upstream/main
         return Ok(new ApplicationDto(
             application.Id,
             application.CandidateProfileId,
             $"{application.CandidateProfile.FirstName} {application.CandidateProfile.LastName}",
             application.JobPostingId,
             application.JobPosting.Title,
-<<<<<<< HEAD
             application.JobPosting.CompanyId,
             application.JobPosting.Company.Name,
-=======
->>>>>>> upstream/main
             application.Status.ToString(),
             application.MatchingScore,
             application.CoverLetter,
@@ -174,12 +159,8 @@ public class ApplicationsController : ControllerBase
             application.KanbanOrder,
             application.AppliedAt,
             application.UpdatedAt,
-<<<<<<< HEAD
             null,
             interview?.Id
-=======
-            null
->>>>>>> upstream/main
         ));
     }
 

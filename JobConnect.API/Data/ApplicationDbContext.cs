@@ -10,6 +10,13 @@ public class ApplicationDbContext : DbContext
     {
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.ConfigureWarnings(warnings =>
+            warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+    }
+
+
     public DbSet<User> Users => Set<User>();
     public DbSet<CandidateProfile> CandidateProfiles => Set<CandidateProfile>();
     public DbSet<Company> Companies => Set<Company>();
@@ -18,13 +25,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<Skill> Skills => Set<Skill>();
     public DbSet<CandidateSkill> CandidateSkills => Set<CandidateSkill>();
     public DbSet<JobSkill> JobSkills => Set<JobSkill>();
-<<<<<<< HEAD
     public DbSet<Interview> Interviews => Set<Interview>();
     public DbSet<CompanyAvailability> CompanyAvailabilities => Set<CompanyAvailability>();
     public DbSet<InterviewMessage> InterviewMessages => Set<InterviewMessage>();
     public DbSet<Notification> Notifications => Set<Notification>();
-=======
->>>>>>> upstream/main
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -112,7 +116,6 @@ public class ApplicationDbContext : DbContext
             .WithMany(s => s.JobSkills)
             .HasForeignKey(js => js.SkillId);
 
-<<<<<<< HEAD
         // Interview configuration
         modelBuilder.Entity<Interview>(entity =>
         {
@@ -177,8 +180,6 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => new { e.UserId, e.IsRead });
         });
 
-=======
->>>>>>> upstream/main
         // Seed some default skills
         modelBuilder.Entity<Skill>().HasData(
             new Skill { Id = 1, Name = "C#", Category = "Backend" },
@@ -199,7 +200,3 @@ public class ApplicationDbContext : DbContext
         );
     }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> upstream/main

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { inject } from '@angular/core';
-=======
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
->>>>>>> upstream/main
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -27,11 +23,7 @@ export const guestGuard: CanActivateFn = () => {
         return true;
     }
 
-<<<<<<< HEAD
-    router.navigate(['/']);
-=======
     router.navigate(['/jobs']);
->>>>>>> upstream/main
     return false;
 };
 
@@ -58,8 +50,6 @@ export const companyGuard: CanActivateFn = () => {
     router.navigate(['/']);
     return false;
 };
-<<<<<<< HEAD
-=======
 
 export const adminGuard: CanActivateFn = () => {
     const authService = inject(AuthService);
@@ -108,4 +98,3 @@ export const pwaGuard: CanActivateFn = () => {
     // Browser mode: allow access to landing page
     return true;
 };
->>>>>>> upstream/main

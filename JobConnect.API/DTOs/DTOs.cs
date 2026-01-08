@@ -36,14 +36,11 @@ public record ChangePasswordDto(
     [Required] [MinLength(6)] string NewPassword
 );
 
-<<<<<<< HEAD
-=======
 public record ChangeNameDto(
     [Required] string FirstName,
     [Required] string LastName
 );
 
->>>>>>> upstream/main
 // User DTOs
 public record UserDto(
     int Id,
@@ -223,11 +220,8 @@ public record ApplicationDto(
     string CandidateName,
     int JobPostingId,
     string JobTitle,
-<<<<<<< HEAD
     int CompanyId,
     string CompanyName,
-=======
->>>>>>> upstream/main
     string Status,
     int MatchingScore,
     string? CoverLetter,
@@ -235,12 +229,8 @@ public record ApplicationDto(
     int KanbanOrder,
     DateTime AppliedAt,
     DateTime UpdatedAt,
-<<<<<<< HEAD
     CandidateProfileDto? CandidateProfile,
     int? InterviewId
-=======
-    CandidateProfileDto? CandidateProfile
->>>>>>> upstream/main
 );
 
 public record CreateApplicationDto(
@@ -267,7 +257,6 @@ public record SkillDto(
     string? Category
 );
 
-<<<<<<< HEAD
 // Interview DTOs
 public record InterviewDto(
     int Id,
@@ -305,12 +294,12 @@ public record CancelInterviewDto(
 
 public record InterviewJoinDto(
     string RoomId,
-    string Provider, // "daily.co" or empty
+    string Provider,
     string UserDisplayName,
     bool CanJoin,
     string? Message,
     int? SecondsUntilStart,
-    string? MeetingToken // Daily.co JWT token for joining
+    string? MeetingToken
 );
 
 // Company Availability DTOs
@@ -376,7 +365,8 @@ public record CandidateSkillUpdateDto(
     int SkillId,
     int ProficiencyLevel,
     int? YearsOfExperience
-=======
+);
+
 // Pagination DTOs
 public record PagedResult<T>(
     List<T> Items,
@@ -384,5 +374,4 @@ public record PagedResult<T>(
     int Page,
     int PageSize,
     bool HasMore
->>>>>>> upstream/main
 );

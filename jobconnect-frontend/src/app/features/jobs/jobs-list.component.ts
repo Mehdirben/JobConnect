@@ -22,11 +22,7 @@ import { CustomDropdownComponent, DropdownOption } from '../../shared/components
         
         <div class="header-badge">
           <span class="badge-dot"></span>
-<<<<<<< HEAD
-          <span>Over 10,000+ jobs available</span>
-=======
           <span>{{ totalCount() }} jobs available</span>
->>>>>>> upstream/main
         </div>
         
         <h1>Find Your <span class="gradient-text">Dream Job</span></h1>
@@ -109,8 +105,6 @@ import { CustomDropdownComponent, DropdownOption } from '../../shared/components
               </a>
             }
           </div>
-<<<<<<< HEAD
-=======
 
           <div class="pagination-info">
             Showing {{ jobs().length }} of {{ totalCount() }} jobs
@@ -128,7 +122,6 @@ import { CustomDropdownComponent, DropdownOption } from '../../shared/components
               </button>
             </div>
           }
->>>>>>> upstream/main
         }
       </div>
     </div>
@@ -139,14 +132,11 @@ export class JobsListComponent implements OnInit, OnDestroy {
   jobs = signal<JobPosting[]>([]);
   skills = signal<Skill[]>([]);
   loading = signal(true);
-<<<<<<< HEAD
-=======
   loadingMore = signal(false);
   hasMore = signal(false);
   totalCount = signal(0);
   currentPage = 1;
   readonly pageSize = 20;
->>>>>>> upstream/main
 
   searchQuery = '';
   selectedType = '';
@@ -188,15 +178,6 @@ export class JobsListComponent implements OnInit, OnDestroy {
   }
 
   private loadJobs() {
-<<<<<<< HEAD
-    this.loading.set(true);
-    this.jobService.getJobs({
-      search: this.searchQuery || undefined,
-      type: this.selectedType || undefined
-    }).subscribe({
-      next: (jobs) => {
-        this.jobs.set(jobs);
-=======
     this.currentPage = 1;
     this.loading.set(true);
     this.jobService.getJobs({
@@ -209,15 +190,12 @@ export class JobsListComponent implements OnInit, OnDestroy {
         this.jobs.set(result.items);
         this.totalCount.set(result.totalCount);
         this.hasMore.set(result.hasMore);
->>>>>>> upstream/main
         this.loading.set(false);
       },
       error: () => this.loading.set(false)
     });
   }
 
-<<<<<<< HEAD
-=======
   loadMore() {
     this.currentPage++;
     this.loadingMore.set(true);
@@ -236,7 +214,6 @@ export class JobsListComponent implements OnInit, OnDestroy {
     });
   }
 
->>>>>>> upstream/main
   onSearchInput() {
     // Only search if query is empty (to reset) or has 2+ characters
     if (this.searchQuery.length === 0 || this.searchQuery.length >= 2) {
@@ -248,7 +225,3 @@ export class JobsListComponent implements OnInit, OnDestroy {
     this.loadJobs();
   }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> upstream/main

@@ -2,11 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-<<<<<<< HEAD
-import { AuthResponse, ChangeEmailRequest, ChangePasswordRequest, LoginRequest, RegisterRequest, UserRole } from '../models';
-=======
 import { AuthResponse, ChangeEmailRequest, ChangeNameRequest, ChangePasswordRequest, LoginRequest, RegisterRequest, UserRole } from '../models';
->>>>>>> upstream/main
 import { ConfigService } from './config.service';
 
 interface JwtPayload {
@@ -31,10 +27,7 @@ export class AuthService {
     readonly userRole = computed(() => this.userSignal()?.role ?? null);
     readonly isCandidate = computed(() => this.userRole() === 'Candidate');
     readonly isCompany = computed(() => this.userRole() === 'Company');
-<<<<<<< HEAD
-=======
     readonly isAdmin = computed(() => this.userRole() === 'Admin');
->>>>>>> upstream/main
 
     constructor(
         private http: HttpClient,
@@ -175,13 +168,10 @@ export class AuthService {
         return this.http.put<{ message: string }>(`${this.API_URL}/change-password`, request);
     }
 
-<<<<<<< HEAD
-=======
     changeName(request: ChangeNameRequest): Observable<{ message: string }> {
         return this.http.put<{ message: string }>(`${this.API_URL}/change-name`, request);
     }
 
->>>>>>> upstream/main
     private handleAuthSuccess(response: AuthResponse): void {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response));

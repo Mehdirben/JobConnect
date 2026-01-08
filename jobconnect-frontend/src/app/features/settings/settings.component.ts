@@ -1,20 +1,8 @@
-<<<<<<< HEAD
-import { Component, signal } from '@angular/core';
-=======
 import { Component, OnInit, signal } from '@angular/core';
->>>>>>> upstream/main
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
-<<<<<<< HEAD
-
-@Component({
-    selector: 'app-settings',
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
-    template: `
-=======
 import { CandidateService } from '../../core/services/candidate.service';
 import { CompanyService } from '../../core/services/company.service';
 import { HttpClient } from '@angular/common/http';
@@ -25,14 +13,10 @@ import { ConfigService } from '../../core/services/config.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
->>>>>>> upstream/main
     <div class="settings-container">
       <div class="settings-content">
         <div class="settings-header">
           <h1>Account Settings</h1>
-<<<<<<< HEAD
-          <p>Manage your email and password</p>
-=======
           <p>Manage your account details and preferences</p>
         </div>
 
@@ -70,7 +54,6 @@ import { ConfigService } from '../../core/services/config.service';
               {{ nameLoading() ? 'Updating...' : 'Update Name' }}
             </button>
           </form>
->>>>>>> upstream/main
         </div>
 
         <!-- Change Email Section -->
@@ -148,87 +131,6 @@ import { ConfigService } from '../../core/services/config.service';
       </div>
     </div>
   `,
-<<<<<<< HEAD
-    styleUrl: './settings.component.scss'
-})
-export class SettingsComponent {
-    emailForm: FormGroup;
-    passwordForm: FormGroup;
-
-    emailLoading = signal(false);
-    emailError = signal<string | null>(null);
-
-    passwordLoading = signal(false);
-    passwordError = signal<string | null>(null);
-
-    constructor(
-        private fb: FormBuilder,
-        public authService: AuthService,
-        private notificationService: NotificationService
-    ) {
-        this.emailForm = this.fb.group({
-            newEmail: ['', [Validators.required, Validators.email]],
-            currentPassword: ['', Validators.required]
-        });
-
-        this.passwordForm = this.fb.group({
-            currentPassword: ['', Validators.required],
-            newPassword: ['', [Validators.required, Validators.minLength(6)]],
-            confirmPassword: ['', Validators.required]
-        });
-    }
-
-    passwordMismatch(): boolean {
-        const newPass = this.passwordForm.get('newPassword')?.value;
-        const confirmPass = this.passwordForm.get('confirmPassword')?.value;
-        return confirmPass && newPass !== confirmPass;
-    }
-
-    changeEmail() {
-        if (this.emailForm.invalid) return;
-
-        this.emailLoading.set(true);
-        this.emailError.set(null);
-
-        this.authService.changeEmail({
-            newEmail: this.emailForm.value.newEmail,
-            currentPassword: this.emailForm.value.currentPassword
-        }).subscribe({
-            next: () => {
-                this.emailLoading.set(false);
-                this.emailForm.reset();
-                this.notificationService.success('Email updated successfully');
-            },
-            error: (err) => {
-                this.emailLoading.set(false);
-                this.emailError.set(err.error?.message || 'Failed to update email');
-            }
-        });
-    }
-
-    changePassword() {
-        if (this.passwordForm.invalid || this.passwordMismatch()) return;
-
-        this.passwordLoading.set(true);
-        this.passwordError.set(null);
-
-        this.authService.changePassword({
-            currentPassword: this.passwordForm.value.currentPassword,
-            newPassword: this.passwordForm.value.newPassword
-        }).subscribe({
-            next: () => {
-                this.passwordLoading.set(false);
-                this.passwordForm.reset();
-                this.notificationService.success('Password updated successfully');
-            },
-            error: (err) => {
-                this.passwordLoading.set(false);
-                this.passwordError.set(err.error?.message || 'Failed to update password');
-            }
-        });
-    }
-}
-=======
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
@@ -404,5 +306,3 @@ export class SettingsComponent implements OnInit {
     });
   }
 }
-
->>>>>>> upstream/main

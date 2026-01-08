@@ -1,12 +1,8 @@
 // User types
 export enum UserRole {
     Candidate = 0,
-<<<<<<< HEAD
-    Company = 1
-=======
     Company = 1,
     Admin = 2
->>>>>>> upstream/main
 }
 
 export interface User {
@@ -48,14 +44,11 @@ export interface ChangePasswordRequest {
     newPassword: string;
 }
 
-<<<<<<< HEAD
-=======
 export interface ChangeNameRequest {
     firstName: string;
     lastName: string;
 }
 
->>>>>>> upstream/main
 // Candidate types
 export interface CandidateProfile {
     id: number;
@@ -117,19 +110,19 @@ export interface Company {
 }
 
 // Job types
-export enum JobStatus {
-    Draft = 0,
-    Published = 1,
-    Closed = 2,
-    Archived = 3
+export enum JobType {
+    FullTime = 'FullTime',
+    PartTime = 'PartTime',
+    Contract = 'Contract',
+    Internship = 'Internship',
+    Remote = 'Remote'
 }
 
-export enum JobType {
-    FullTime = 0,
-    PartTime = 1,
-    Contract = 2,
-    Internship = 3,
-    Remote = 4
+export enum JobStatus {
+    Draft = 'Draft',
+    Published = 'Published',
+    Closed = 'Closed',
+    Archived = 'Archived'
 }
 
 export interface JobPosting {
@@ -192,11 +185,8 @@ export interface Application {
     candidateName: string;
     jobPostingId: number;
     jobTitle: string;
-<<<<<<< HEAD
     companyId: number;
     companyName?: string;
-=======
->>>>>>> upstream/main
     status: string;
     matchingScore: number;
     coverLetter?: string;
@@ -205,10 +195,7 @@ export interface Application {
     appliedAt: Date;
     updatedAt: Date;
     candidateProfile?: CandidateProfile;
-<<<<<<< HEAD
     interviewId?: number;
-=======
->>>>>>> upstream/main
 }
 
 export interface KanbanUpdate {
@@ -224,7 +211,6 @@ export interface Skill {
     category?: string;
 }
 
-<<<<<<< HEAD
 // Interview types
 export enum InterviewStatus {
     Scheduled = 'Scheduled',
@@ -271,12 +257,12 @@ export interface CancelInterviewRequest {
 
 export interface InterviewJoinInfo {
     roomId: string;
-    provider: string; // "daily.co" or empty
+    provider: string;
     userDisplayName: string;
     canJoin: boolean;
     message?: string;
     secondsUntilStart?: number;
-    meetingToken?: string; // Daily.co JWT token for joining
+    meetingToken?: string;
 }
 
 // Company Availability types
@@ -332,7 +318,7 @@ export interface Notification {
     isRead: boolean;
     createdAt: Date;
 }
-=======
+
 // Pagination types
 export interface PagedResult<T> {
     items: T[];
@@ -346,5 +332,3 @@ export interface PaginationParams {
     page?: number;
     pageSize?: number;
 }
-
->>>>>>> upstream/main

@@ -433,11 +433,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-<<<<<<< HEAD
     gap: 0.75rem;
     flex-wrap: wrap;
-=======
->>>>>>> upstream/main
     margin-top: 1.25rem;
     padding-top: 1rem;
     border-top: 1px solid var(--border-light);
@@ -453,7 +450,6 @@
     }
 }
 
-<<<<<<< HEAD
 .btn-interview-action {
     display: inline-flex;
     align-items: center;
@@ -474,8 +470,6 @@
     }
 }
 
-=======
->>>>>>> upstream/main
 // Empty State
 .empty-state {
     text-align: center;
@@ -658,8 +652,6 @@
     .job-info h3 {
         font-size: 1rem;
     }
-<<<<<<< HEAD
-=======
 }
 
 /* Pagination Info */
@@ -723,5 +715,4 @@
     border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
->>>>>>> upstream/main
 }
