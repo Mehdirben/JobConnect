@@ -1,7 +1,12 @@
 // User types
 export enum UserRole {
     Candidate = 0,
+<<<<<<< HEAD
     Company = 1
+=======
+    Company = 1,
+    Admin = 2
+>>>>>>> upstream/main
 }
 
 export interface User {
@@ -43,6 +48,14 @@ export interface ChangePasswordRequest {
     newPassword: string;
 }
 
+<<<<<<< HEAD
+=======
+export interface ChangeNameRequest {
+    firstName: string;
+    lastName: string;
+}
+
+>>>>>>> upstream/main
 // Candidate types
 export interface CandidateProfile {
     id: number;
@@ -179,8 +192,11 @@ export interface Application {
     candidateName: string;
     jobPostingId: number;
     jobTitle: string;
+<<<<<<< HEAD
     companyId: number;
     companyName?: string;
+=======
+>>>>>>> upstream/main
     status: string;
     matchingScore: number;
     coverLetter?: string;
@@ -189,7 +205,10 @@ export interface Application {
     appliedAt: Date;
     updatedAt: Date;
     candidateProfile?: CandidateProfile;
+<<<<<<< HEAD
     interviewId?: number;
+=======
+>>>>>>> upstream/main
 }
 
 export interface KanbanUpdate {
@@ -205,6 +224,7 @@ export interface Skill {
     category?: string;
 }
 
+<<<<<<< HEAD
 // Interview types
 export enum InterviewStatus {
     Scheduled = 'Scheduled',
@@ -312,3 +332,19 @@ export interface Notification {
     isRead: boolean;
     createdAt: Date;
 }
+=======
+// Pagination types
+export interface PagedResult<T> {
+    items: T[];
+    totalCount: number;
+    page: number;
+    pageSize: number;
+    hasMore: boolean;
+}
+
+export interface PaginationParams {
+    page?: number;
+    pageSize?: number;
+}
+
+>>>>>>> upstream/main

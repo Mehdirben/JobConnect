@@ -24,11 +24,21 @@ public class JobsController : ControllerBase
     // Public endpoint - get all published jobs
     [HttpGet]
     [AllowAnonymous]
+<<<<<<< HEAD
     public async Task<ActionResult<List<JobPostingDto>>> GetJobs(
         [FromQuery] string? search,
         [FromQuery] string? location,
         [FromQuery] string? type,
         [FromQuery] int[]? skills)
+=======
+    public async Task<ActionResult<PagedResult<JobPostingDto>>> GetJobs(
+        [FromQuery] string? search,
+        [FromQuery] string? location,
+        [FromQuery] string? type,
+        [FromQuery] int[]? skills,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20)
+>>>>>>> upstream/main
     {
         var query = _context.JobPostings
             .Include(j => j.Company)
@@ -61,9 +71,20 @@ public class JobsController : ControllerBase
                 j.RequiredSkills.Any(rs => skills.Contains(rs.SkillId)));
         }
 
+<<<<<<< HEAD
         var jobs = await query.OrderByDescending(j => j.PublishedAt).ToListAsync();
 
         return Ok(jobs.Select(j => new JobPostingDto(
+=======
+        var totalCount = await query.CountAsync();
+        var jobs = await query
+            .OrderByDescending(j => j.PublishedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var items = jobs.Select(j => new JobPostingDto(
+>>>>>>> upstream/main
             j.Id,
             j.CompanyId,
             j.Company.Name,
@@ -88,7 +109,19 @@ public class JobsController : ControllerBase
             j.CreatedAt,
             j.PublishedAt,
             j.Applications.Count
+<<<<<<< HEAD
         )));
+=======
+        )).ToList();
+
+        return Ok(new PagedResult<JobPostingDto>(
+            items,
+            totalCount,
+            page,
+            pageSize,
+            page * pageSize < totalCount
+        ));
+>>>>>>> upstream/main
     }
 
     [HttpGet("{id}")]
@@ -290,13 +323,21 @@ public class JobsController : ControllerBase
         var company = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (company == null)
+<<<<<<< HEAD
             return NotFound();
+=======
+            return NotFound("Company profile not found");
+>>>>>>> upstream/main
 
         var job = await _context.JobPostings
             .FirstOrDefaultAsync(j => j.Id == id && j.CompanyId == company.Id);
 
         if (job == null)
+<<<<<<< HEAD
             return NotFound();
+=======
+            return NotFound("Job not found");
+>>>>>>> upstream/main
 
         job.Status = JobStatus.Published;
         job.PublishedAt = DateTime.UtcNow;
@@ -306,6 +347,7 @@ public class JobsController : ControllerBase
         return Ok();
     }
 
+<<<<<<< HEAD
     [HttpPost("{id}/unpublish")]
     [Authorize(Roles = "Company")]
     public async Task<ActionResult> UnpublishJob(int id)
@@ -329,6 +371,8 @@ public class JobsController : ControllerBase
         return Ok();
     }
 
+=======
+>>>>>>> upstream/main
     [HttpPost("{id}/close")]
     [Authorize(Roles = "Company")]
     public async Task<ActionResult> CloseJob(int id)
@@ -337,13 +381,21 @@ public class JobsController : ControllerBase
         var company = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (company == null)
+<<<<<<< HEAD
             return NotFound();
+=======
+            return NotFound("Company profile not found");
+>>>>>>> upstream/main
 
         var job = await _context.JobPostings
             .FirstOrDefaultAsync(j => j.Id == id && j.CompanyId == company.Id);
 
         if (job == null)
+<<<<<<< HEAD
             return NotFound();
+=======
+            return NotFound("Job not found");
+>>>>>>> upstream/main
 
         job.Status = JobStatus.Closed;
         job.ClosedAt = DateTime.UtcNow;
@@ -352,5 +404,148 @@ public class JobsController : ControllerBase
 
         return Ok();
     }
+<<<<<<< HEAD
+=======
+
+    // Admin endpoints - manage all jobs
+    [HttpGet("admin/all")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<PagedResult<JobPostingDto>>> GetAllJobsAdmin(
+        [FromQuery] string? search,
+        [FromQuery] string? status,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20)
+    {
+        var query = _context.JobPostings
+            .Include(j => j.Company)
+            .Include(j => j.RequiredSkills)
+            .ThenInclude(js => js.Skill)
+            .Include(j => j.Applications)
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(j => 
+                j.Title.ToLower().Contains(search.ToLower()) ||
+                j.Description.ToLower().Contains(search.ToLower()) ||
+                j.Company.Name.ToLower().Contains(search.ToLower()));
+        }
+
+        if (!string.IsNullOrEmpty(status) && Enum.TryParse<JobStatus>(status, out var jobStatus))
+        {
+            query = query.Where(j => j.Status == jobStatus);
+        }
+
+        var totalCount = await query.CountAsync();
+        var jobs = await query
+            .OrderByDescending(j => j.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var items = jobs.Select(j => new JobPostingDto(
+            j.Id,
+            j.CompanyId,
+            j.Company.Name,
+            j.Title,
+            j.Description,
+            j.Requirements,
+            j.Benefits,
+            j.Location,
+            j.Type.ToString(),
+            j.SalaryMin,
+            j.SalaryMax,
+            j.SalaryCurrency,
+            j.Status.ToString(),
+            j.ExperienceYearsMin,
+            j.ExperienceYearsMax,
+            j.RequiredSkills.Select(js => new JobSkillDto(
+                js.SkillId,
+                js.Skill?.Name ?? "",
+                js.IsRequired,
+                js.MinProficiency
+            )).ToList(),
+            j.CreatedAt,
+            j.PublishedAt,
+            j.Applications.Count
+        )).ToList();
+
+        return Ok(new PagedResult<JobPostingDto>(
+            items,
+            totalCount,
+            page,
+            pageSize,
+            page * pageSize < totalCount
+        ));
+    }
+
+    [HttpPut("admin/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult> UpdateJobAdmin(int id, [FromBody] UpdateJobPostingDto dto)
+    {
+        var job = await _context.JobPostings
+            .Include(j => j.RequiredSkills)
+            .FirstOrDefaultAsync(j => j.Id == id);
+
+        if (job == null)
+            return NotFound();
+
+        if (dto.Title != null) job.Title = dto.Title;
+        if (dto.Description != null) job.Description = dto.Description;
+        if (dto.Requirements != null) job.Requirements = dto.Requirements;
+        if (dto.Benefits != null) job.Benefits = dto.Benefits;
+        if (dto.Location != null) job.Location = dto.Location;
+        if (dto.Type.HasValue) job.Type = dto.Type.Value;
+        if (dto.SalaryMin.HasValue) job.SalaryMin = dto.SalaryMin;
+        if (dto.SalaryMax.HasValue) job.SalaryMax = dto.SalaryMax;
+        if (dto.SalaryCurrency != null) job.SalaryCurrency = dto.SalaryCurrency;
+        if (dto.ExperienceYearsMin.HasValue) job.ExperienceYearsMin = dto.ExperienceYearsMin;
+        if (dto.ExperienceYearsMax.HasValue) job.ExperienceYearsMax = dto.ExperienceYearsMax;
+
+        if (dto.Status.HasValue)
+        {
+            job.Status = dto.Status.Value;
+            if (dto.Status == JobStatus.Published && job.PublishedAt == null)
+                job.PublishedAt = DateTime.UtcNow;
+            if (dto.Status == JobStatus.Closed)
+                job.ClosedAt = DateTime.UtcNow;
+        }
+
+        if (dto.RequiredSkills != null)
+        {
+            _context.JobSkills.RemoveRange(job.RequiredSkills);
+            foreach (var skill in dto.RequiredSkills)
+            {
+                job.RequiredSkills.Add(new JobSkill
+                {
+                    JobPostingId = job.Id,
+                    SkillId = skill.SkillId,
+                    IsRequired = skill.IsRequired,
+                    MinProficiency = skill.MinProficiency
+                });
+            }
+        }
+
+        job.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpDelete("admin/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult> DeleteJobAdmin(int id)
+    {
+        var job = await _context.JobPostings.FirstOrDefaultAsync(j => j.Id == id);
+
+        if (job == null)
+            return NotFound();
+
+        _context.JobPostings.Remove(job);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+>>>>>>> upstream/main
 }
 

@@ -17,7 +17,11 @@ namespace JobConnect.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+<<<<<<< HEAD
                 .HasAnnotation("ProductVersion", "10.0.0")
+=======
+                .HasAnnotation("ProductVersion", "10.0.1")
+>>>>>>> upstream/main
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -190,6 +194,7 @@ namespace JobConnect.API.Migrations
                     b.ToTable("Companies");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("JobConnect.API.Models.CompanyAvailability", b =>
                 {
                     b.Property<int>("Id")
@@ -326,6 +331,8 @@ namespace JobConnect.API.Migrations
                     b.ToTable("InterviewMessages");
                 });
 
+=======
+>>>>>>> upstream/main
             modelBuilder.Entity("JobConnect.API.Models.JobPosting", b =>
                 {
                     b.Property<int>("Id")
@@ -417,6 +424,7 @@ namespace JobConnect.API.Migrations
                     b.ToTable("JobSkills");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("JobConnect.API.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -459,6 +467,8 @@ namespace JobConnect.API.Migrations
                     b.ToTable("Notifications");
                 });
 
+=======
+>>>>>>> upstream/main
             modelBuilder.Entity("JobConnect.API.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
@@ -586,6 +596,15 @@ namespace JobConnect.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+<<<<<<< HEAD
+=======
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+>>>>>>> upstream/main
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
@@ -665,6 +684,7 @@ namespace JobConnect.API.Migrations
                     b.Navigation("User");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("JobConnect.API.Models.CompanyAvailability", b =>
                 {
                     b.HasOne("JobConnect.API.Models.Company", "Company")
@@ -729,6 +749,8 @@ namespace JobConnect.API.Migrations
                     b.Navigation("Sender");
                 });
 
+=======
+>>>>>>> upstream/main
             modelBuilder.Entity("JobConnect.API.Models.JobPosting", b =>
                 {
                     b.HasOne("JobConnect.API.Models.Company", "Company")
@@ -759,6 +781,7 @@ namespace JobConnect.API.Migrations
                     b.Navigation("Skill");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("JobConnect.API.Models.Notification", b =>
                 {
                     b.HasOne("JobConnect.API.Models.User", "User")
@@ -770,6 +793,8 @@ namespace JobConnect.API.Migrations
                     b.Navigation("User");
                 });
 
+=======
+>>>>>>> upstream/main
             modelBuilder.Entity("JobConnect.API.Models.CandidateProfile", b =>
                 {
                     b.Navigation("Applications");
@@ -779,6 +804,7 @@ namespace JobConnect.API.Migrations
 
             modelBuilder.Entity("JobConnect.API.Models.Company", b =>
                 {
+<<<<<<< HEAD
                     b.Navigation("Availabilities");
 
                     b.Navigation("Interviews");
@@ -791,6 +817,11 @@ namespace JobConnect.API.Migrations
                     b.Navigation("Messages");
                 });
 
+=======
+                    b.Navigation("JobPostings");
+                });
+
+>>>>>>> upstream/main
             modelBuilder.Entity("JobConnect.API.Models.JobPosting", b =>
                 {
                     b.Navigation("Applications");

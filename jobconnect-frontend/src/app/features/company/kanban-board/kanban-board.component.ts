@@ -220,3 +220,7 @@ export class KanbanBoardComponent implements OnInit {
         this.saveChanges(targetColumn);
     }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/main

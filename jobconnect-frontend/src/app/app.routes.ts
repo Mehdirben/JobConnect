@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+<<<<<<< HEAD
 import { authGuard, candidateGuard, companyGuard, guestGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -13,6 +14,27 @@ export const routes: Routes = [
     },
     {
         path: 'jobs/:id',
+=======
+import { authGuard, candidateGuard, companyGuard, guestGuard, adminGuard, redirectAdminFromJobsGuard, pwaGuard } from './core/guards/auth.guard';
+
+export const routes: Routes = [
+    // Landing page (only in browser mode, not PWA)
+    {
+        path: '',
+        canActivate: [pwaGuard, guestGuard],
+        loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent),
+        pathMatch: 'full'
+    },
+    {
+        path: 'jobs',
+        canActivate: [redirectAdminFromJobsGuard],
+        loadComponent: () => import('./features/jobs/jobs-list.component').then(m => m.JobsListComponent)
+    },
+
+    {
+        path: 'jobs/:id',
+        canActivate: [redirectAdminFromJobsGuard],
+>>>>>>> upstream/main
         loadComponent: () => import('./features/jobs/job-detail.component').then(m => m.JobDetailComponent)
     },
 
@@ -82,10 +104,13 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/company/candidates/candidates-view.component').then(m => m.CandidatesViewComponent)
             },
             {
+<<<<<<< HEAD
                 path: 'availability',
                 loadComponent: () => import('./features/company/availability-config/availability-config.component').then(m => m.AvailabilityConfigComponent)
             },
             {
+=======
+>>>>>>> upstream/main
                 path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'
@@ -93,6 +118,7 @@ export const routes: Routes = [
         ]
     },
 
+<<<<<<< HEAD
     // Interview routes (authenticated users)
     {
         path: 'interviews',
@@ -108,6 +134,39 @@ export const routes: Routes = [
         path: 'candidate/book-interview/:applicationId',
         canActivate: [candidateGuard],
         loadComponent: () => import('./features/interview/book-interview.component').then(m => m.BookInterviewComponent)
+=======
+    // Admin routes
+    {
+        path: 'admin',
+        canActivate: [adminGuard],
+        children: [
+            {
+                path: 'jobs',
+                loadComponent: () => import('./features/admin/jobs/admin-jobs.component').then(m => m.AdminJobsComponent)
+            },
+            {
+                path: 'jobs/:id/edit',
+                loadComponent: () => import('./features/admin/job-edit/admin-job-edit.component').then(m => m.AdminJobEditComponent)
+            },
+            {
+                path: 'users',
+                loadComponent: () => import('./features/admin/users/admin-users.component').then(m => m.AdminUsersComponent)
+            },
+            {
+                path: 'users/new',
+                loadComponent: () => import('./features/admin/user-edit/admin-user-edit.component').then(m => m.AdminUserEditComponent)
+            },
+            {
+                path: 'users/:id/edit',
+                loadComponent: () => import('./features/admin/user-edit/admin-user-edit.component').then(m => m.AdminUserEditComponent)
+            },
+            {
+                path: '',
+                redirectTo: 'jobs',
+                pathMatch: 'full'
+            }
+        ]
+>>>>>>> upstream/main
     },
 
     // Catch-all

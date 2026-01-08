@@ -91,6 +91,7 @@
             <span class="current-status">
                 {{ isRejected(app.status) ? 'Closed' : 'Status: ' + app.status }}
             </span>
+<<<<<<< HEAD
             @if (app.status === 'Interview') {
             @if (app.interviewId) {
             <a class="btn-interview-action" routerLink="/interviews">
@@ -103,10 +104,32 @@
             </a>
             }
             }
+=======
+>>>>>>> upstream/main
             <span class="last-update">Updated {{ app.updatedAt | date:'short' }}</span>
         </div>
     </div>
     }
 </div>
+<<<<<<< HEAD
+=======
+
+<div class="pagination-info">
+    Showing {{ applications().length }} of {{ totalCount() }} applications
+</div>
+
+@if (hasMore()) {
+<div class="load-more-container">
+    <button class="load-more-btn" (click)="loadMore()" [disabled]="loadingMore()">
+        @if (loadingMore()) {
+        <span class="btn-spinner"></span>
+        Loading...
+        } @else {
+        Load More Applications
+        }
+    </button>
+</div>
+}
+>>>>>>> upstream/main
 }
 </div>

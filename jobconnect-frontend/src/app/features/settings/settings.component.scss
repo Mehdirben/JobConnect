@@ -125,6 +125,23 @@
 }
 
 /* Form Styles */
+<<<<<<< HEAD
+=======
+.form-row {
+    display: flex;
+    gap: 1rem;
+
+    .form-group {
+        flex: 1;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+>>>>>>> upstream/main
 .form-group {
     margin-bottom: 1.25rem;
 

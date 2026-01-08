@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
+=======
+import { Injectable, signal } from '@angular/core';
+>>>>>>> upstream/main
 
 export interface Notification {
     id: number;
@@ -9,6 +13,7 @@ export interface Notification {
     duration?: number;
 }
 
+<<<<<<< HEAD
 export interface AppNotification {
     id: number;
     type: string;
@@ -19,10 +24,13 @@ export interface AppNotification {
     createdAt: Date;
 }
 
+=======
+>>>>>>> upstream/main
 @Injectable({
     providedIn: 'root'
 })
 export class NotificationService {
+<<<<<<< HEAD
     private http = inject(HttpClient);
     private configService = inject(ConfigService);
 
@@ -53,6 +61,11 @@ export class NotificationService {
     }
 
     // Toast methods
+=======
+    private idCounter = 0;
+    notifications = signal<Notification[]>([]);
+
+>>>>>>> upstream/main
     show(message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info', duration = 4000) {
         const notification: Notification = {
             id: ++this.idCounter,
@@ -91,6 +104,7 @@ export class NotificationService {
     dismissAll() {
         this.notifications.set([]);
     }
+<<<<<<< HEAD
 
     // App notification methods (backend persistence)
     markAsRead(id: number) {
@@ -132,4 +146,6 @@ export class NotificationService {
     clearAppNotifications() {
         this.appNotifications.set([]);
     }
+=======
+>>>>>>> upstream/main
 }

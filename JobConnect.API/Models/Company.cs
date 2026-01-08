@@ -19,7 +19,11 @@ public class Company
     // Navigation properties
     public User User { get; set; } = null!;
     public ICollection<JobPosting> JobPostings { get; set; } = new List<JobPosting>();
+<<<<<<< HEAD
     public ICollection<CompanyAvailability> Availabilities { get; set; } = new List<CompanyAvailability>();
     public ICollection<Interview> Interviews { get; set; } = new List<Interview>();
 }
 
+=======
+}
+>>>>>>> upstream/main

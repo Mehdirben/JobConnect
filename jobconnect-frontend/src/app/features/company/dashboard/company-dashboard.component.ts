@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CompanyService } from '../../../core/services/company.service';
 import { JobService } from '../../../core/services/job.service';
+<<<<<<< HEAD
 import { InterviewService } from '../../../core/services/interview.service';
+=======
+>>>>>>> upstream/main
 import { Company, JobPosting } from '../../../core/models';
 
 @Component({
@@ -39,6 +42,7 @@ import { Company, JobPosting } from '../../../core/models';
         </div>
       </div>
 
+<<<<<<< HEAD
       <!-- Availability Setup Section -->
       <div class="availability-section">
         <div class="availability-card">
@@ -56,6 +60,8 @@ import { Company, JobPosting } from '../../../core/models';
         </div>
       </div>
 
+=======
+>>>>>>> upstream/main
       <div class="jobs-section">
         <h2>Your Job Postings</h2>
         
@@ -71,9 +77,13 @@ import { Company, JobPosting } from '../../../core/models';
             @for (job of jobs(); track job.id) {
               <div class="job-item">
                 <div class="job-info">
+<<<<<<< HEAD
                   <a [routerLink]="['/company/jobs', job.id, 'edit']" class="job-title-link">
                     <h3>{{ job.title }}</h3>
                   </a>
+=======
+                  <h3>{{ job.title }}</h3>
+>>>>>>> upstream/main
                   <div class="job-meta">
                     <span class="status" [class]="job.status.toLowerCase()">{{ job.status }}</span>
                     <span class="type">{{ job.jobType }}</span>
@@ -86,6 +96,7 @@ import { Company, JobPosting } from '../../../core/models';
                   <span class="applicants">{{ job.applicationCount }} applicants</span>
                 </div>
                 <div class="job-actions">
+<<<<<<< HEAD
                   @if (job.status === 'Draft') {
                     <button (click)="publishJob(job.id)" class="btn-publish">
                       ✓ Publish
@@ -98,6 +109,8 @@ import { Company, JobPosting } from '../../../core/models';
                   <a [routerLink]="['/company/jobs', job.id, 'edit']" class="btn-edit">
                     ✎ Edit
                   </a>
+=======
+>>>>>>> upstream/main
                   <a [routerLink]="['/company/jobs', job.id, 'candidates']" class="btn-view">
                     View Candidates
                   </a>
@@ -236,6 +249,7 @@ import { Company, JobPosting } from '../../../core/models';
       }
     }
 
+<<<<<<< HEAD
     /* Availability Section */
     .availability-section {
       animation: fadeInUp 0.5s ease backwards;
@@ -307,6 +321,8 @@ import { Company, JobPosting } from '../../../core/models';
       white-space: nowrap;
     }
 
+=======
+>>>>>>> upstream/main
     .jobs-section {
       animation: fadeInUp 0.5s ease backwards;
       animation-delay: 0.3s;
@@ -430,6 +446,7 @@ import { Company, JobPosting } from '../../../core/models';
       }
     }
 
+<<<<<<< HEAD
     .job-title-link {
       text-decoration: none;
       color: inherit;
@@ -496,6 +513,8 @@ import { Company, JobPosting } from '../../../core/models';
       flex-wrap: wrap;
     }
 
+=======
+>>>>>>> upstream/main
     .loading {
       text-align: center;
       padding: 3rem;
@@ -743,20 +762,30 @@ export class CompanyDashboardComponent implements OnInit {
   company = signal<Company | null>(null);
   jobs = signal<JobPosting[]>([]);
   loading = signal(true);
+<<<<<<< HEAD
   hasAvailability = signal(false);
   settingUpAvailability = signal(false);
+=======
+>>>>>>> upstream/main
 
   totalApplications = signal(0);
 
   constructor(
     private companyService: CompanyService,
+<<<<<<< HEAD
     private jobService: JobService,
     private interviewService: InterviewService
+=======
+    private jobService: JobService
+>>>>>>> upstream/main
   ) { }
 
   ngOnInit() {
     this.loadData();
+<<<<<<< HEAD
     this.loadAvailability();
+=======
+>>>>>>> upstream/main
   }
 
   private loadData() {
@@ -773,6 +802,7 @@ export class CompanyDashboardComponent implements OnInit {
       error: () => this.loading.set(false)
     });
   }
+<<<<<<< HEAD
 
   private loadAvailability() {
     this.interviewService.getAvailability().subscribe({
@@ -813,3 +843,6 @@ export class CompanyDashboardComponent implements OnInit {
 
 
 
+=======
+}
+>>>>>>> upstream/main

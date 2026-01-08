@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+=======
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+>>>>>>> upstream/main
 import { AuthService } from './core/services/auth.service';
 import { NotificationService } from './core/services/notification.service';
 
@@ -18,17 +24,33 @@ import { NotificationService } from './core/services/notification.service';
           </a>
           
           <div class="nav-center">
+<<<<<<< HEAD
             <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
+=======
+            @if (!authService.isAdmin()) {
+              <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
+            }
+>>>>>>> upstream/main
             
             @if (authService.isAuthenticated()) {
               @if (authService.isCandidate()) {
                 <a routerLink="/candidate/cv-builder" routerLinkActive="active" class="nav-link">CV</a>
                 <a routerLink="/candidate/applications" routerLinkActive="active" class="nav-link">Applications</a>
+<<<<<<< HEAD
                 <a routerLink="/interviews" routerLinkActive="active" class="nav-link">Entretiens</a>
               }
               @if (authService.isCompany()) {
                 <a routerLink="/company/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
                 <a routerLink="/interviews" routerLinkActive="active" class="nav-link">Entretiens</a>
+=======
+              }
+              @if (authService.isCompany()) {
+                <a routerLink="/company/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+              }
+              @if (authService.isAdmin()) {
+                <a routerLink="/admin/jobs" routerLinkActive="active" class="nav-link">Manage Jobs</a>
+                <a routerLink="/admin/users" routerLinkActive="active" class="nav-link">Manage Users</a>
+>>>>>>> upstream/main
               }
             }
           </div>
@@ -36,6 +58,7 @@ import { NotificationService } from './core/services/notification.service';
 
           <div class="nav-actions">
             @if (authService.isAuthenticated()) {
+<<<<<<< HEAD
               <!-- Notifications Bell -->
               <div class="notification-wrapper">
                 <button class="btn-icon notification-btn" (click)="toggleNotifications()" title="Notifications">
@@ -119,6 +142,8 @@ import { NotificationService } from './core/services/notification.service';
                 }
               </div>
 
+=======
+>>>>>>> upstream/main
               <a routerLink="/settings" class="btn-icon" title="Settings">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
@@ -157,6 +182,7 @@ import { NotificationService } from './core/services/notification.service';
           </div>
           
           <div class="mobile-nav-links">
+<<<<<<< HEAD
             <a routerLink="/jobs" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
@@ -164,6 +190,17 @@ import { NotificationService } from './core/services/notification.service';
               </svg>
               <span>Browse Jobs</span>
             </a>
+=======
+            @if (!authService.isAdmin()) {
+              <a routerLink="/jobs" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                <span>Browse Jobs</span>
+              </a>
+            }
+>>>>>>> upstream/main
             
             @if (authService.isAuthenticated()) {
               @if (authService.isCandidate()) {
@@ -183,6 +220,7 @@ import { NotificationService } from './core/services/notification.service';
                   </svg>
                   <span>Applications</span>
                 </a>
+<<<<<<< HEAD
                 <a routerLink="/interviews" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -192,6 +230,8 @@ import { NotificationService } from './core/services/notification.service';
                   </svg>
                   <span>Entretiens</span>
                 </a>
+=======
+>>>>>>> upstream/main
               }
               @if (authService.isCompany()) {
                 <a routerLink="/company/dashboard" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
@@ -203,6 +243,7 @@ import { NotificationService } from './core/services/notification.service';
                   </svg>
                   <span>Dashboard</span>
                 </a>
+<<<<<<< HEAD
                 <a routerLink="/interviews" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -211,6 +252,25 @@ import { NotificationService } from './core/services/notification.service';
                     <line x1="3" y1="10" x2="21" y2="10"/>
                   </svg>
                   <span>Entretiens</span>
+=======
+              }
+              @if (authService.isAdmin()) {
+                <a routerLink="/admin/jobs" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                  <span>Manage Jobs</span>
+                </a>
+                <a routerLink="/admin/users" routerLinkActive="active" class="mobile-nav-link" (click)="closeMobileMenu()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span>Manage Users</span>
+>>>>>>> upstream/main
                 </a>
               }
             }
@@ -485,6 +545,7 @@ import { NotificationService } from './core/services/notification.service';
       }
     }
 
+<<<<<<< HEAD
     /* Notification Dropdown */
     .notification-wrapper {
       position: relative;
@@ -711,6 +772,8 @@ import { NotificationService } from './core/services/notification.service';
       margin-top: 2px;
     }
 
+=======
+>>>>>>> upstream/main
     /* Mobile Menu Button */
     .mobile-menu-btn {
       display: none;
@@ -1113,16 +1176,23 @@ import { NotificationService } from './core/services/notification.service';
     }
   `]
 })
+<<<<<<< HEAD
 export class App implements OnInit {
   mobileMenuOpen = signal(false);
   mobileMenuClosing = signal(false);
   notificationsOpen = signal(false);
+=======
+export class App {
+  mobileMenuOpen = signal(false);
+  mobileMenuClosing = signal(false);
+>>>>>>> upstream/main
 
   constructor(
     public authService: AuthService,
     public notificationService: NotificationService
   ) { }
 
+<<<<<<< HEAD
   ngOnInit() {
     // Load notifications if user is authenticated
     if (this.authService.isAuthenticated()) {
@@ -1130,6 +1200,8 @@ export class App implements OnInit {
     }
   }
 
+=======
+>>>>>>> upstream/main
   toggleMobileMenu() {
     if (this.mobileMenuOpen()) {
       this.closeMobileMenu();
@@ -1155,6 +1227,7 @@ export class App implements OnInit {
     this.closeMobileMenu();
     this.authService.logout();
   }
+<<<<<<< HEAD
 
   toggleNotifications() {
     const willOpen = !this.notificationsOpen();
@@ -1195,4 +1268,6 @@ export class App implements OnInit {
     if (days === 1) return 'Hier';
     return `Il y a ${days} jours`;
   }
+=======
+>>>>>>> upstream/main
 }

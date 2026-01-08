@@ -118,7 +118,13 @@ public class CandidatesController : ControllerBase
     }
 
     [HttpGet("applications")]
+<<<<<<< HEAD
     public async Task<ActionResult<List<ApplicationDto>>> GetApplications()
+=======
+    public async Task<ActionResult<PagedResult<ApplicationDto>>> GetApplications(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20)
+>>>>>>> upstream/main
     {
         var userId = GetUserId();
         var profile = await _context.CandidateProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
@@ -126,6 +132,7 @@ public class CandidatesController : ControllerBase
         if (profile == null)
             return NotFound();
 
+<<<<<<< HEAD
         var applications = await _context.Applications
             .Include(a => a.JobPosting)
             .ThenInclude(j => j.Company)
@@ -145,13 +152,31 @@ public class CandidatesController : ControllerBase
             .ToDictionary(g => g.Key, g => g.OrderByDescending(i => i.Id).First().Id);
 
         return Ok(applications.Select(a => new ApplicationDto(
+=======
+        var query = _context.Applications
+            .Include(a => a.JobPosting)
+            .ThenInclude(j => j.Company)
+            .Where(a => a.CandidateProfileId == profile.Id);
+
+        var totalCount = await query.CountAsync();
+        var applications = await query
+            .OrderByDescending(a => a.AppliedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var items = applications.Select(a => new ApplicationDto(
+>>>>>>> upstream/main
             a.Id,
             a.CandidateProfileId,
             $"{profile.FirstName} {profile.LastName}",
             a.JobPostingId,
             a.JobPosting.Title,
+<<<<<<< HEAD
             a.JobPosting.CompanyId,
             a.JobPosting.Company.Name,
+=======
+>>>>>>> upstream/main
             a.Status.ToString(),
             a.MatchingScore,
             a.CoverLetter,
@@ -159,9 +184,22 @@ public class CandidatesController : ControllerBase
             a.KanbanOrder,
             a.AppliedAt,
             a.UpdatedAt,
+<<<<<<< HEAD
             null,
             interviewMap.GetValueOrDefault(a.Id)
         )));
+=======
+            null
+        )).ToList();
+
+        return Ok(new PagedResult<ApplicationDto>(
+            items,
+            totalCount,
+            page,
+            pageSize,
+            page * pageSize < totalCount
+        ));
+>>>>>>> upstream/main
     }
 
     private CandidateProfileDto MapToDto(CandidateProfile profile)

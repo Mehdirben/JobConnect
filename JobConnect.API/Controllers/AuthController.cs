@@ -185,4 +185,55 @@ public class AuthController : ControllerBase
 
         return Ok(new { message = "Password changed successfully" });
     }
+<<<<<<< HEAD
+=======
+
+    [HttpPut("change-name")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<ActionResult> ChangeName([FromBody] ChangeNameDto dto)
+    {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
+        {
+            return Unauthorized(new { message = "Invalid token" });
+        }
+
+        var user = await _context.Users
+            .Include(u => u.CandidateProfile)
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found" });
+        }
+
+        if (user.Role == UserRole.Candidate && user.CandidateProfile != null)
+        {
+            user.CandidateProfile.FirstName = dto.FirstName;
+            user.CandidateProfile.LastName = dto.LastName;
+        }
+        else if (user.Role == UserRole.Company && user.Company != null)
+        {
+            // For companies, combine first and last name as company name, or just use first name
+            user.Company.Name = string.IsNullOrWhiteSpace(dto.LastName) 
+                ? dto.FirstName 
+                : $"{dto.FirstName} {dto.LastName}".Trim();
+        }
+        else if (user.Role == UserRole.Admin)
+        {
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+        }
+        else
+        {
+            return BadRequest(new { message = "No profile found to update" });
+        }
+
+        user.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Name changed successfully" });
+    }
+>>>>>>> upstream/main
 }
