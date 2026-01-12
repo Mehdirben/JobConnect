@@ -196,62 +196,7 @@ using (var scope = app.Services.CreateScope())
             DatabaseSeeder.SeedData(db, authServiceForSeeder, forceSeed);
         }
         
-        // Create test interview for video testing (Marie du Pont with TechVision Labs)
-        try
-        {
-            var marieProfile = db.CandidateProfiles.FirstOrDefault(c => c.FirstName == "Marie");
-            var techVision = db.Companies.FirstOrDefault(c => c.Name.Contains("TechVision"));
-            var angularJob = db.JobPostings.FirstOrDefault(j => j.Title.Contains("Angular") && j.CompanyId == techVision!.Id);
-            
-            if (marieProfile != null && techVision != null && angularJob != null)
-            {
-                // Delete all existing scheduled interviews for this combo
-                var oldInterviews = db.Interviews
-                    .Where(i => i.CandidateProfileId == marieProfile.Id && 
-                                i.CompanyId == techVision.Id)
-                    .ToList();
-                db.Interviews.RemoveRange(oldInterviews);
-                db.SaveChanges();
-                
-                // Find or create application
-                var application = db.Applications.FirstOrDefault(a => 
-                    a.CandidateProfileId == marieProfile.Id && a.JobPostingId == angularJob.Id);
-                
-                if (application == null)
-                {
-                    application = new JobConnect.API.Models.Application
-                    {
-                        CandidateProfileId = marieProfile.Id,
-                        JobPostingId = angularJob.Id,
-                        Status = JobConnect.API.Models.ApplicationStatus.Interview,
-                        CoverLetter = "Test application for video interview"
-                    };
-                    db.Applications.Add(application);
-                    db.SaveChanges();
-                }
-                
-                // Create fresh interview starting NOW
-                var interview = new JobConnect.API.Models.Interview
-                {
-                    ApplicationId = application.Id,
-                    CompanyId = techVision.Id,
-                    CandidateProfileId = marieProfile.Id,
-                    ScheduledAt = DateTime.Now.AddMinutes(-5), // Started 5 min ago (can join now)
-                    EndsAt = DateTime.Now.AddMinutes(55), // 1h total
-                    Status = JobConnect.API.Models.InterviewStatus.Scheduled,
-                    JitsiRoomId = $"test-visio-{DateTime.Now:HHmmss}",
-                    CompanyJoinedAt = null, // Fresh - not joined yet
-                    CreatedAt = DateTime.Now
-                };
-                db.Interviews.Add(interview);
-                db.SaveChanges();
-                Console.WriteLine($"✅ Fresh interview created: Marie du Pont with TechVision Labs at {interview.ScheduledAt:HH:mm}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Note: Interview cleanup skipped - {ex.Message}");
-        }
+        // Note: Interview creation removed - use the app UI to create interviews
     }
     catch (Exception ex)
     {
