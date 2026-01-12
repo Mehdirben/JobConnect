@@ -140,27 +140,76 @@ import { NotificationService } from './core/services/notification.service';
             }
           </div>
 
-          <!-- Mobile Menu Button -->
-          <button class="mobile-menu-btn" (click)="toggleMobileMenu()" [class.active]="mobileMenuOpen()">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </button>
-
-          <!-- Mobile Notification Bell (right of hamburger) -->
-          @if (authService.isAuthenticated()) {
-            <div class="mobile-notification-wrapper">
-              <button class="btn-icon notification-btn" (click)="toggleNotifications($event)" title="Notifications">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                </svg>
-                @if (notificationService.unreadCount() > 0) {
-                  <span class="notification-badge">{{ notificationService.unreadCount() }}</span>
+          <!-- Mobile Actions (bell + hamburger grouped together) -->
+          <div class="mobile-actions">
+            @if (authService.isAuthenticated()) {
+              <div class="mobile-notification-wrapper">
+                <button class="btn-icon notification-btn" (click)="toggleNotifications($event)" title="Notifications">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+                  @if (notificationService.unreadCount() > 0) {
+                    <span class="notification-badge">{{ notificationService.unreadCount() }}</span>
+                  }
+                </button>
+                
+                <!-- Mobile Notification Dropdown -->
+                @if (notificationsOpen()) {
+                  <div class="notification-dropdown">
+                    <div class="dropdown-header">
+                      <span>Notifications</span>
+                      <div class="header-actions">
+                        @if (notificationService.unreadCount() > 0) {
+                          <button class="mark-read-btn" (click)="notificationService.markAllAsRead()">
+                            Tout marquer lu
+                          </button>
+                        }
+                        @if (notificationService.appNotifications().length > 0) {
+                          <button class="clear-all-btn" (click)="clearAllNotifications()">
+                            Effacer tout
+                          </button>
+                        }
+                      </div>
+                    </div>
+                    <div class="dropdown-body">
+                      @if (notificationService.appNotifications().length === 0) {
+                        <div class="empty-notifications">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                          </svg>
+                          <p>Aucune notification</p>
+                        </div>
+                      } @else {
+                        @for (notif of notificationService.appNotifications(); track notif.id) {
+                          <div class="notification-item" [class.unread]="!notif.isRead" (click)="onNotificationClick(notif)">
+                            <div class="notif-icon" [class]="notif.type">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                              </svg>
+                            </div>
+                            <div class="notif-content">
+                              <span class="notif-title">{{ notif.title }}</span>
+                              <span class="notif-message">{{ notif.message }}</span>
+                              <span class="notif-time">{{ getTimeAgo(notif.createdAt) }}</span>
+                            </div>
+                          </div>
+                        }
+                      }
+                    </div>
+                  </div>
                 }
-              </button>
-            </div>
-          }
+              </div>
+            }
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" (click)="toggleMobileMenu()" [class.active]="mobileMenuOpen()">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -1006,9 +1055,15 @@ import { NotificationService } from './core/services/notification.service';
         display: none;
       }
 
+      .mobile-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
       .mobile-notification-wrapper {
         display: flex;
-        margin-right: 8px;
+        position: relative;
       }
 
       .mobile-menu-btn {
@@ -1042,6 +1097,7 @@ import { NotificationService } from './core/services/notification.service';
     }
 
     @media (min-width: 769px) {
+      .mobile-actions,
       .mobile-notification-wrapper {
         display: none;
       }
