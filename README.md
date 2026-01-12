@@ -120,7 +120,7 @@
 | **Interview Scheduling** | Candidates view company availability calendar and book 90-minute interview slots. |
 | **HD Video Room** | Powered by 100ms with real-time chat during the interview. |
 | **Reschedule/Cancel** | Full support for rescheduling to new slots and cancellation with reasons. |
-| **Status Tracking** | Interview states: Scheduled → InWaitingRoom → InProgress → Completed/Cancelled |
+| **Status Tracking** | Interview states: Scheduled → InProgress → Completed/Cancelled |
 
 ### � Real-Time Notifications
 

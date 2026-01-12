@@ -341,7 +341,6 @@ The Interview model handles video interview scheduling with 100ms integration:
 public enum InterviewStatus
 {
     Scheduled,      // Confirmed, waiting for date
-    InWaitingRoom,  // 5 min before, participants can join
     InProgress,     // Video call active
     Completed,      // Finished successfully
     Cancelled,      // Cancelled by either party
