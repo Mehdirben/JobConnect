@@ -26,7 +26,7 @@ import { Interview, InterviewJoinInfo } from '../../core/models';
             } @else if (waitingForHost()) {
                 <div class="center-content">
                     <div class="spinner-circle"></div>
-                    <h1>En attente de l'entreprise</h1>
+                    <h1>{{ waitingTitle() }}</h1>
                     <p class="subtitle">{{ joinInfo()?.message }}</p>
                     
                     <div class="info-card">
@@ -238,6 +238,7 @@ export class VideoRoomComponent implements OnInit {
 
     isCompany = computed(() => this.authService.isCompany());
     waitingForHost = computed(() => !this.loading() && !this.error() && !this.meetingOpened() && this.joinInfo()?.canJoin === false);
+    waitingTitle = computed(() => this.isCompany() ? 'Salle d\'attente' : 'En attente de l\'entreprise');
 
     ngOnInit() {
         const id = Number(this.route.snapshot.paramMap.get('id'));
