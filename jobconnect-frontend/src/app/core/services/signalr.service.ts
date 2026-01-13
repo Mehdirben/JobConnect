@@ -69,7 +69,20 @@ export class SignalRService {
         }
 
         // Build hub URL with JWT token
-        const hubUrl = `${this.configService.apiUrl.replace('/api', '')}/hubs/notifications`;
+        const apiUrl = this.configService.apiUrl;
+        console.log('SignalR: Raw apiUrl from config:', apiUrl);
+
+        // Remove trailing /api to get the base URL for SignalR hub
+        let hubUrl: string;
+        if (apiUrl.endsWith('/api')) {
+            hubUrl = apiUrl.slice(0, -4) + '/hubs/notifications';
+        } else if (apiUrl === '/api') {
+            // Relative URL - construct absolute URL from current origin
+            hubUrl = `${window.location.origin}/hubs/notifications`;
+        } else {
+            // Fallback: try to use the apiUrl as-is
+            hubUrl = apiUrl.replace(/\/api\/?$/, '') + '/hubs/notifications';
+        }
         console.log('SignalR: Connecting to', hubUrl);
 
         this.hubConnection = new signalR.HubConnectionBuilder()
