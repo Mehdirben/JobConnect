@@ -145,14 +145,14 @@ app.MapHub<NotificationHub>("/hubs/notifications");
 // Health check endpoint
 app.MapGet("/api/health", () => new { status = "healthy", timestamp = DateTime.UtcNow });
 
-// Auto-create database on startup (only creates tables if they don't exist)
+// Auto-migrate database on startup (applies pending migrations)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     
-    // EnsureCreated checks if the database exists, and if not, creates it along with all tables
-    // If the database already exists with tables, it does nothing (no error)
-    db.Database.EnsureCreated();
+    // Apply any pending migrations - this creates the database if it doesn't exist
+    // and applies all migrations to bring the schema up to date
+    db.Database.Migrate();
     
     // Fix timestamp columns to prevent timezone conversion (run only once, safe to repeat)
     try
