@@ -412,7 +412,7 @@ public class InterviewsController : ControllerBase
         if (!await HasAccessToInterview(interview))
             return Forbid();
 
-        var now = DateTime.Now;
+        var now = DateTime.UtcNow;
         var waitingRoomOpens = interview.ScheduledAt.AddMinutes(-5);
         var secondsUntilStart = (int)(waitingRoomOpens - now).TotalSeconds;
 
