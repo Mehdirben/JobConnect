@@ -51,7 +51,7 @@ services:
       - JwtSettings__Issuer=JobConnect
       - JwtSettings__Audience=JobConnectUsers
       - JwtSettings__ExpiryMinutes=60
-      - CorsOrigins=${CORS_ORIGINS:-http://localhost:4200,http://localhost:4201}
+      - CorsOrigins=${CORS_ORIGINS:-http://localhost,http://localhost:4200,http://localhost:4201}
       - SEED_DATABASE=${SEED_DATABASE:-false}
       - FORCE_SEED=${FORCE_SEED:-false}
       - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@jobconnect.com}
@@ -67,19 +67,16 @@ services:
     networks:
       - jobconnect-network
 
-  # Angular Frontend
+  # Angular Frontend (Nginx production build)
   frontend:
     build:
       context: ./jobconnect-frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: jobconnect-frontend
     environment:
-      - NODE_ENV=development
+      - API_URL=${API_URL:-http://localhost:5001/api}
     ports:
-      - "4201:4200"
-    volumes:
-      - ./jobconnect-frontend/src:/app/src
-      - ./jobconnect-frontend/angular.json:/app/angular.json
+      - "80:80"
     depends_on:
       - api
     networks:
