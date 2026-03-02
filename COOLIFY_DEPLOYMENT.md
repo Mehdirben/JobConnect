@@ -189,9 +189,9 @@ Set the following environment variables in Coolify:
 | `JwtSettings__Issuer` | JWT issuer | `JobConnect` | Yes |
 | `JwtSettings__Audience` | JWT audience | `JobConnectUsers` | Yes |
 | `JwtSettings__ExpiryMinutes` | Token expiration | `60` | Yes |
-| `CorsOrigins` | Allowed CORS origins | `https://yourdomain.com,https://www.yourdomain.com` | Yes |
-| `ADMIN_EMAIL` | Default admin account email | `admin@jobconnect.com` | No |
-| `ADMIN_PASSWORD` | Default admin account password | `Admin123!` | No |
+| `CorsOrigins` | Allowed CORS origins (no trailing slash!) | `https://yourdomain.com,https://www.yourdomain.com` | Yes |
+| `AdminSettings__Email` | Default admin account email | `admin@jobconnect.com` | No |
+| `AdminSettings__Password` | Default admin account password | `Admin123!` | No |
 | `SEED_DATABASE` | Enable database seeding | `true` or `false` | No |
 | `FORCE_SEED` | Force seeding even if data exists | `true` or `false` | No |
 | `HMS_ACCESS_KEY` | 100ms access key | (from 100ms dashboard) | No |
@@ -341,6 +341,10 @@ services:
       - JwtSettings__Audience=JobConnectUsers
       - JwtSettings__ExpiryMinutes=60
       - CorsOrigins=${CORS_ORIGINS:-http://localhost:4200}
+      - AdminSettings__Email=${AdminSettings__Email:-admin@jobconnect.com}
+      - AdminSettings__Password=${AdminSettings__Password:-Admin123!}
+      - SEED_DATABASE=${SEED_DATABASE:-false}
+      - FORCE_SEED=${FORCE_SEED:-false}
       - HMS_ACCESS_KEY=${HMS_ACCESS_KEY:-}
       - HMS_SECRET=${HMS_SECRET:-}
       - HMS_TEMPLATE_ID=${HMS_TEMPLATE_ID:-}
@@ -357,6 +361,8 @@ services:
     build:
       context: ./jobconnect-frontend
       dockerfile: Dockerfile.prod
+    environment:
+      - API_URL=${API_URL:-/api}
     depends_on:
       - api
     healthcheck:
@@ -372,12 +378,17 @@ volumes:
 ### Environment Variables for Complete Stack
 
 | Variable | Description | Example |
-| ------------------- | --------------------------------- | --------------------------------------------------------- |
+| ----------------------------- | ---------------------------------------- | --------------------------------------------------------- |
 | `POSTGRES_DB` | Database name | `jobconnect` |
 | `POSTGRES_USER` | Database username | `jobconnect` |
 | `POSTGRES_PASSWORD` | Database password | (generate secure string) |
 | `JWT_SECRET` | Secret for JWT tokens | (generate secure string, 32+ chars) |
-| `CORS_ORIGINS` | Comma-separated allowed origins | `https://yourdomain.com,https://www.yourdomain.com` |
+| `CORS_ORIGINS` | Comma-separated allowed origins (no trailing slash!) | `https://yourdomain.com,https://www.yourdomain.com` |
+| `AdminSettings__Email` | Default admin account email | `admin@jobconnect.com` |
+| `AdminSettings__Password` | Default admin account password | `Admin123!` |
+| `SEED_DATABASE` | Enable database seeding | `true` or `false` |
+| `FORCE_SEED` | Force seeding even if data exists | `true` or `false` |
+| `API_URL` | Full API URL for frontend | `https://api.yourdomain.com/api` |
 
 ---
 

@@ -54,8 +54,8 @@ services:
       - CorsOrigins=${CORS_ORIGINS:-http://localhost:4200,http://localhost:4201}
       - SEED_DATABASE=${SEED_DATABASE:-false}
       - FORCE_SEED=${FORCE_SEED:-false}
-      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@jobconnect.com}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-Admin123!}
+      - AdminSettings__Email=${AdminSettings__Email:-admin@jobconnect.com}
+      - AdminSettings__Password=${AdminSettings__Password:-Admin123!}
       - HMS_ACCESS_KEY=${HMS_ACCESS_KEY:-}
       - HMS_SECRET=${HMS_SECRET:-}
       - HMS_TEMPLATE_ID=${HMS_TEMPLATE_ID:-}
