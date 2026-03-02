@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile
     container_name: jobconnect-api
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5000
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=${POSTGRES_DB:-jobconnect};Username=${POSTGRES_USER:-jobconnect};Password=${POSTGRES_PASSWORD:-jobconnect123}
       - JwtSettings__Secret=${JWT_SECRET:-YourSuperSecretKeyThatIsAtLeast32CharactersLong!}
