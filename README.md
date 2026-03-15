@@ -22,7 +22,7 @@
 | Document | Description |
 |----------|-------------|
 | [📘 Technical Report](REPORT.md) | Complete technical documentation including architecture, data models, and API reference |
-| [🚀 Coolify Deployment Guide](COOLIFY_DEPLOYMENT.md) | Step-by-step guide for deploying JobConnect on Coolify |
+| [🚀 Deployment Guide](DEPLOYMENT.md) | Step-by-step guide for deploying JobConnect on Dokploy |
 
 ---
 

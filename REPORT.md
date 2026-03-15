@@ -698,7 +698,7 @@ JobConnect/
 │
 ├── docker-compose.yml       # Container orchestration
 ├── README.md               # Project documentation
-└── COOLIFY_DEPLOYMENT.md   # Deployment guide
+└── DEPLOYMENT.md              # Deployment guide
 ```
 
 ---
