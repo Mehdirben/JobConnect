@@ -13,6 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - jobconnect-network
+      - dokploy-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jobconnect}" ]
       interval: 10s
@@ -66,6 +67,7 @@ services:
         condition: service_healthy
     networks:
       - jobconnect-network
+      - dokploy-network
 
   # Angular Frontend (Nginx production build)
   frontend:
@@ -81,10 +83,13 @@ services:
       - api
     networks:
       - jobconnect-network
+      - dokploy-network
 
 networks:
   jobconnect-network:
     driver: bridge
+  dokploy-network:
+    external: true
 
 volumes:
   postgres_data:
